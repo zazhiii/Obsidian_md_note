@@ -2,7 +2,7 @@
 
 #### 介绍
 markdown笔记
-同步到
+同步到gitee, 坚果云
 
 #### 所有的markdow笔记
 包括:
