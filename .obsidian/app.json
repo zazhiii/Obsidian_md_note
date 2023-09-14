@@ -1,4 +1,11 @@
 {
   "promptDelete": false,
-  "attachmentFolderPath": "obsidian-plugin-master"
+  "attachmentFolderPath": "obsidian-plugin-master",
+  "pdfExportSettings": {
+    "includeName": true,
+    "pageSize": "A4",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 100
+  }
 }

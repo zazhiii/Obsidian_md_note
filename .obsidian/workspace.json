@@ -4,15 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "0b6a845a47ebe445",
+        "id": "61a2be3b1cd32bd8",
         "type": "tabs",
         "children": [
           {
-            "id": "3c8ab11ef3549c86",
+            "id": "2ecf241650b67aac",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -34,7 +38,7 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "byModifiedTime"
+                "sortOrder": "alphabetical"
               }
             }
           },
@@ -44,7 +48,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "工艺品",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -60,12 +64,20 @@
               "type": "starred",
               "state": {}
             }
+          },
+          {
+            "id": "4ca9f764a0300bf5",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 317.5
+    "width": 311.5
   },
   "right": {
     "id": "3f53aefbef31667e",
@@ -81,6 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "README.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +132,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "README.md"
+              }
             }
           }
         ],
@@ -136,56 +152,58 @@
       "graph:查看关系图谱": false,
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
-      "command-palette:打开命令面板": false
+      "command-palette:打开命令面板": false,
+      "remotely-save:Remotely Save": false
     }
   },
   "active": "bf3d5aefe5cf8349",
   "lastOpenFiles": [
-    "讲义md/assets/git流程_详解.png",
-    "讲义md/Git教程.md",
-    "讲义md/assets/1571983065236.png",
-    "讲义md/assets/工具差异.png",
-    "讲义md/assets/svn.jpg",
-    "讲义md/assets/Linux timeline.png",
-    "讲义md/assets/git流程.png",
-    "讲义md/assets/gitlogo.png",
-    "讲义md/assets/git.png",
-    "讲义md/assets/224637.png",
-    "讲义md/assets/1572536029899.png",
-    "讲义md/assets",
-    "讲义md/分支.xlsx",
-    "讲义md",
-    "Git教程.md",
-    "leetcode题解/字符串/剑指 Offer 58 - II. 左旋转字符串.md",
-    "luogu题解/AC/数组/P2550 彩票摇奖.md",
-    "luogu题解/AC/数组/P5729 工艺品制作(AC).md",
-    "luogu题解/AC/高精度/P1303 AB Problem.md",
-    "luogu题解/AC/高精度/P1601 A+B Problem（高精）.md",
-    "题解技巧/Java常用API.md",
-    "luogu题解/AC/高精度/P1009 阶乘之和.md",
-    "题解技巧/算法.md",
-    "luogu题解/wrong/P1308  统计单词数(TLE MLE).md",
-    "luogu题解/AC/未命名.md",
-    "luogu题解/AC/数组",
-    "安排计划.md",
-    "luogu题解/wrong/P1217 回文质数(88).md",
-    "题解技巧/解题 _ 数据结构.md",
-    "luogu题解/AC/P2669 金币.md",
-    "luogu题解/AC/高精度/P1591 阶乘数码.md",
-    "luogu题解/AC/高精度",
-    "luogu题解/AC/P5739 计算阶乘(AC).md",
-    "luogu题解/AC/P1720 月落乌啼算钱（斐波那契数列）(AC).md",
-    "计算机基础.md",
+    "杂记/造梦无双养号攻略.md",
+    "eclipse注意事项.md",
+    "coding学习相关/技术类 书籍阅读.md",
     "作业.md",
+    "杂记",
+    "coding学习相关",
+    "coding学习相关/计算机基础.md",
+    "账号/steam.md",
+    "账号/Microsoft.md",
+    "账号/Apple ID.md",
+    "账号/英雄联盟.md",
+    "账号/校园网认证.md",
+    "算法刷题个人题解/luogu题解/wrong/DFS/P1088  火星人.md",
+    "算法刷题个人题解",
+    "安排计划.md",
+    "杂记/剧本1.3.md",
+    "缺氧/缺氧.md",
+    "缺氧/Pasted image 20230806155318.png",
+    "缺氧/Pasted image 20230806155341.png",
+    "缺氧/Pasted image 20230902220209.png",
+    "缺氧/Pasted image 20230809221213.png",
+    "缺氧/Pasted image 20230806155929.png",
+    "缺氧/Pasted image 20230904192902.png",
+    "缺氧/Pasted image 20230902220206.png",
+    "缺氧/Pasted image 20230902215955.png",
+    "算法刷题个人题解/luogu题解/AC/函数结构体/P1304 哥德巴赫猜想.md",
+    "缺氧/Pasted image 20230806160405.png",
+    "缺氧/Pasted image 20230806155441.png",
+    "前端/CSS 高级技巧.md",
+    "算法刷题/解题 _ 数据结构.md",
+    "算法刷题个人题解/luogu题解/AC/函数结构体/P5735 距离函数(AC).md",
+    "算法刷题个人题解/luogu题解/AC/函数结构体/P5736 质数筛(AC).md",
+    "算法刷题个人题解/luogu题解/AC/函数结构体/P5737 闰年展示(AC).md",
+    "算法刷题个人题解/luogu题解/AC/函数结构体/P5739 计算阶乘(AC).md",
     "README.md",
-    "luogu题解/wrong/P3741 honoka的键盘(Runtime).md",
-    "luogu题解/wrong/P1102 A-B 数对(TLM).md",
-    "luogu题解/AC/P1765 手机.md",
-    "未命名.canvas",
-    "obsidian-plugin-master/obsidian-plugin-master/plugin/obsidian-git/styles.css",
-    "obsidian-plugin-master/obsidian-plugin-master/plugin/obsidian-git/manifest.json",
-    "obsidian-plugin-master/obsidian-plugin-master/plugin/obsidian-git/main.js",
-    "obsidian-plugin-master/obsidian-plugin-master/plugin/obsidian-git",
-    "plugins/obsidian-plugin-master/资源/obsidian-admonition_支持分栏样式.zip"
+    "算法刷题个人题解/luogu题解/AC/函数结构体/P5740 【深基7.例9】最厉害的学生.md",
+    "算法刷题个人题解/luogu题解/AC/函数结构体/P5744 【深基7.习9】培训.md",
+    "算法刷题个人题解/luogu题解/AC/函数结构体/P5743 【深基7.习8】猴子吃桃.md",
+    "算法刷题/Java常用API.md",
+    "算法刷题个人题解/luogu题解/AC/函数结构体",
+    "算法刷题个人题解/luogu题解/AC/动态规划/01背包",
+    "算法刷题个人题解/luogu题解/AC/动态规划",
+    "算法刷题个人题解/leetcode题解/动态规划/01背包",
+    "算法刷题个人题解/leetcode题解/动态规划",
+    "Coding",
+    "算法刷题个人题解/luogu题解/AC/循环结构",
+    "未命名.canvas"
   ]
 }
