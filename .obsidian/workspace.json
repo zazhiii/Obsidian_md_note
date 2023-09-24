@@ -4,19 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "61a2be3b1cd32bd8",
+        "id": "85672887a0f724d3",
         "type": "tabs",
         "children": [
           {
-            "id": "2ecf241650b67aac",
+            "id": "368383460bb4e3b9",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "README.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -93,7 +89,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +105,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "README.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -132,9 +126,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "README.md"
-              }
+              "state": {}
             }
           },
           {
@@ -166,8 +158,17 @@
       "remotely-save:Remotely Save": false
     }
   },
-  "active": "bf3d5aefe5cf8349",
+  "active": "368383460bb4e3b9",
   "lastOpenFiles": [
+    "算法刷题个人题解/luogu题解/AC/函数结构体/P5735 距离函数(AC).md",
+    "算法刷题/算法.md",
+    "算法刷题/解题 _ 数据结构.md",
+    "账号/校园网认证.md",
+    "coding学习相关/计算机基础.md",
+    "game/原/宝箱.md",
+    "game/原/材料.md",
+    "game/缺氧/缺氧.md",
+    "README.md",
     "game",
     "杂记/造梦无双养号攻略.md",
     "eclipse注意事项.md",
@@ -175,17 +176,14 @@
     "作业.md",
     "杂记",
     "coding学习相关",
-    "coding学习相关/计算机基础.md",
     "账号/steam.md",
     "账号/Microsoft.md",
     "账号/Apple ID.md",
     "账号/英雄联盟.md",
-    "账号/校园网认证.md",
     "算法刷题个人题解/luogu题解/wrong/DFS/P1088  火星人.md",
     "算法刷题个人题解",
     "安排计划.md",
     "杂记/剧本1.3.md",
-    "game/缺氧/缺氧.md",
     "game/缺氧/Pasted image 20230806155318.png",
     "game/缺氧/Pasted image 20230806155341.png",
     "game/缺氧/Pasted image 20230902220209.png",
@@ -198,22 +196,16 @@
     "game/缺氧/Pasted image 20230806160405.png",
     "game/缺氧/Pasted image 20230806155441.png",
     "前端/CSS 高级技巧.md",
-    "算法刷题/解题 _ 数据结构.md",
-    "算法刷题个人题解/luogu题解/AC/函数结构体/P5735 距离函数(AC).md",
     "算法刷题个人题解/luogu题解/AC/函数结构体/P5736 质数筛(AC).md",
     "算法刷题个人题解/luogu题解/AC/函数结构体/P5737 闰年展示(AC).md",
     "算法刷题个人题解/luogu题解/AC/函数结构体/P5739 计算阶乘(AC).md",
-    "README.md",
     "算法刷题个人题解/luogu题解/AC/函数结构体/P5740 【深基7.例9】最厉害的学生.md",
-    "算法刷题个人题解/luogu题解/AC/函数结构体/P5744 【深基7.习9】培训.md",
-    "算法刷题个人题解/luogu题解/AC/函数结构体/P5743 【深基7.习8】猴子吃桃.md",
     "算法刷题个人题解/luogu题解/AC/函数结构体",
     "算法刷题个人题解/luogu题解/AC/动态规划/01背包",
     "算法刷题个人题解/luogu题解/AC/动态规划",
     "算法刷题个人题解/leetcode题解/动态规划/01背包",
     "算法刷题个人题解/leetcode题解/动态规划",
     "Coding",
-    "算法刷题个人题解/luogu题解/AC/循环结构",
     "未命名.canvas"
   ]
 }
