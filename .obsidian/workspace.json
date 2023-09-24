@@ -11,8 +11,12 @@
             "id": "368383460bb4e3b9",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "MySQL/MySQL基础/mysql基础.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -89,6 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "MySQL/MySQL基础/mysql基础.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,6 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "MySQL/MySQL基础/mysql基础.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +132,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "MySQL/MySQL基础/mysql基础.md"
+              }
             }
           },
           {
@@ -160,6 +168,12 @@
   },
   "active": "368383460bb4e3b9",
   "lastOpenFiles": [
+    "Pasted image 20230924203534.png",
+    "MySQL/MySQL基础/Pasted image 20230924201811.png",
+    "MySQL/MySQL基础/mysql基础.md",
+    "Pasted image 20230924202012.png",
+    "MySQL/MySQL基础",
+    "MySQL",
     "算法刷题个人题解/luogu题解/AC/函数结构体/P5735 距离函数(AC).md",
     "算法刷题/算法.md",
     "算法刷题/解题 _ 数据结构.md",
@@ -193,19 +207,13 @@
     "game/缺氧/Pasted image 20230902220206.png",
     "game/缺氧/Pasted image 20230902215955.png",
     "算法刷题个人题解/luogu题解/AC/函数结构体/P1304 哥德巴赫猜想.md",
-    "game/缺氧/Pasted image 20230806160405.png",
-    "game/缺氧/Pasted image 20230806155441.png",
     "前端/CSS 高级技巧.md",
     "算法刷题个人题解/luogu题解/AC/函数结构体/P5736 质数筛(AC).md",
     "算法刷题个人题解/luogu题解/AC/函数结构体/P5737 闰年展示(AC).md",
-    "算法刷题个人题解/luogu题解/AC/函数结构体/P5739 计算阶乘(AC).md",
-    "算法刷题个人题解/luogu题解/AC/函数结构体/P5740 【深基7.例9】最厉害的学生.md",
     "算法刷题个人题解/luogu题解/AC/函数结构体",
     "算法刷题个人题解/luogu题解/AC/动态规划/01背包",
     "算法刷题个人题解/luogu题解/AC/动态规划",
     "算法刷题个人题解/leetcode题解/动态规划/01背包",
-    "算法刷题个人题解/leetcode题解/动态规划",
-    "Coding",
     "未命名.canvas"
   ]
 }
