@@ -13,5 +13,5 @@
 ## 1. DDL
 ![[Pasted image 20230924221349.png]]
 
-
+# P7
 ## 2. DML
