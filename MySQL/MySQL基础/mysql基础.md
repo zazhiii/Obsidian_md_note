@@ -11,7 +11,20 @@
 
 ![[Pasted image 20230924221151.png]]
 ## 1. DDL
+### 数据库操作
 ![[Pasted image 20230924221349.png]]
 
-# P7
-## 2. DML
+### 数据类型
+![[Pasted image 20230926165707.png]]
+![[Pasted image 20230926165749.png]]
+![[Pasted image 20230926165823.png]]
+### 表操作(增删改查)
+![[Pasted image 20230926163750.png]]
+![[Pasted image 20230926164543.png]]
+![[Pasted image 20230926171816.png]]
+![[Pasted image 20230926171109.png]]
+![[Pasted image 20230926171531.png]]
+![[Pasted image 20230926171856.png]]
+![[Pasted image 20230926171924.png]]
+## 2. DML(表中数据增删改查)
+# p12
