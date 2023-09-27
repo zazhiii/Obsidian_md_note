@@ -26,5 +26,19 @@
 ![[Pasted image 20230926171531.png]]
 ![[Pasted image 20230926171856.png]]
 ![[Pasted image 20230926171924.png]]
-## 2. DML(表中数据增删改查)
-# p12
+## 2. DML(表中数据: 增, 删, 改)
+![[Pasted image 20230926222658.png]]
+
+![[Pasted image 20230926222944.png]]
+
+![[Pasted image 20230926224011.png]]
+
+![[Pasted image 20230926224041.png]]
+
+## 3. DQL(表中数据: 查询)
+![[Pasted image 20230926224747.png]]
+
+![[Pasted image 20230926224942.png]]
+![[Pasted image 20230926225144.png]]
+
+# P15 8:02

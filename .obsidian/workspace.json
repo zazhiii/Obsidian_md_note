@@ -11,8 +11,12 @@
             "id": "fdc8b6563d7e2a4f",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "MySQL/MySQL基础/mysql基础.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -73,7 +77,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "3f53aefbef31667e",
@@ -89,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "MySQL/MySQL基础/mysql基础.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,6 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "MySQL/MySQL基础/mysql基础.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +133,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "MySQL/MySQL基础/mysql基础.md"
+              }
             }
           },
           {
@@ -160,18 +169,18 @@
   },
   "active": "fdc8b6563d7e2a4f",
   "lastOpenFiles": [
+    "Pasted image 20230926225144.png",
+    "Pasted image 20230926224942.png",
+    "Pasted image 20230926224855.png",
+    "Pasted image 20230926224747.png",
+    "Pasted image 20230926224041.png",
+    "Pasted image 20230926224011.png",
+    "Pasted image 20230926222944.png",
+    "Pasted image 20230926222658.png",
     "MySQL/MySQL基础/Pasted image 20230926165236.png",
     "MySQL/MySQL基础/mysql基础.md",
     "MySQL/MySQL基础/Pasted image 20230926171924.png",
     "MySQL/MySQL基础/Pasted image 20230926171856.png",
-    "MySQL/MySQL基础/Pasted image 20230926171816.png",
-    "MySQL/MySQL基础/Pasted image 20230926171531.png",
-    "MySQL/MySQL基础/Pasted image 20230926171109.png",
-    "MySQL/MySQL基础/Pasted image 20230926170417.png",
-    "MySQL/MySQL基础/Pasted image 20230926165823.png",
-    "MySQL/MySQL基础/Pasted image 20230926165749.png",
-    "MySQL/MySQL基础/Pasted image 20230926165707.png",
-    "MySQL/MySQL基础/Pasted image 20230926165253.png",
     "MySQL/MySQL基础",
     "MySQL",
     "算法刷题个人题解/luogu题解/AC/函数结构体/P5735 距离函数(AC).md",
