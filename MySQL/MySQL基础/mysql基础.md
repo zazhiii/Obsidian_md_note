@@ -37,8 +37,8 @@
 
 ## 3. DQL(表中数据: 查询)
 ![[Pasted image 20230926224747.png]]
-
 ![[Pasted image 20230926224942.png]]
+### 基本查询
 ![[Pasted image 20230926225144.png]]
-
-# P15 8:02
+### 条件查询
+![[Pasted image 20230927124914.png]]
