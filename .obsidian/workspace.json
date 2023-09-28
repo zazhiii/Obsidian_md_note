@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "MySQL/MySQL基础/mysql基础.md",
+                "file": "前端/CSS 高级技巧.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "MySQL/MySQL基础/mysql基础.md",
+                "file": "前端/CSS 高级技巧.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "MySQL/MySQL基础/mysql基础.md",
+                "file": "前端/CSS 高级技巧.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "MySQL/MySQL基础/mysql基础.md"
+                "file": "前端/CSS 高级技巧.md"
               }
             }
           },
@@ -168,6 +168,7 @@
   },
   "active": "fdc8b6563d7e2a4f",
   "lastOpenFiles": [
+    "MySQL/MySQL基础/mysql基础.md",
     "Pasted image 20230928124327.png",
     "Pasted image 20230928120337.png",
     "Pasted image 20230928120204.png",
@@ -178,8 +179,6 @@
     "MySQL/MySQL基础/Pasted image 20230926224011.png",
     "MySQL/MySQL基础/Pasted image 20230926222658.png",
     "MySQL/MySQL基础/Pasted image 20230926171924.png",
-    "MySQL/MySQL基础/Pasted image 20230926224747.png",
-    "MySQL/MySQL基础/mysql基础.md",
     "MySQL/MySQL基础",
     "MySQL",
     "算法刷题个人题解/luogu题解/AC/函数结构体/P5735 距离函数(AC).md",

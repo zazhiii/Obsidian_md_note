@@ -8,7 +8,6 @@
 # 二. SQL(基础中最重要)
 
 ![[Pasted image 20230924220951.png]]
-
 ![[Pasted image 20230924221151.png]]
 ## 1. DDL
 ### 数据库操作
