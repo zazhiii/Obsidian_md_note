@@ -81,3 +81,15 @@
 # 四. 约束
 ## 1.概述
 ![[Pasted image 20230928222136.png]] 
+![[Pasted image 20230928223522.png]]
+## 2.外键约束
+![[Pasted image 20230928223720.png]]
+![[Pasted image 20230928224425.png]]
+- 项目用逻辑外键?
+
+![[Pasted image 20230928224819.png]]
+## 3.总结
+![[Pasted image 20230928224854.png]]
+
+# 五. 多表查询
+# P37

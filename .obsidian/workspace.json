@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "MySQL/MySQL基础/mysql基础.md",
+                "file": "Git/git.md",
                 "mode": "source",
                 "source": false
               }
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "MySQL/MySQL基础/mysql基础.md",
+                "file": "Git/git.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,7 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "MySQL/MySQL基础/mysql基础.md",
+                "file": "Git/git.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +134,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "MySQL/MySQL基础/mysql基础.md"
+                "file": "Git/git.md"
               }
             }
           },
@@ -163,26 +163,28 @@
       "graph:查看关系图谱": false,
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
-      "command-palette:打开命令面板": false,
-      "remotely-save:Remotely Save": false
+      "command-palette:打开命令面板": false
     }
   },
-  "active": "fdc8b6563d7e2a4f",
+  "active": "bf3d5aefe5cf8349",
   "lastOpenFiles": [
-    "Pasted image 20230928222136.png",
-    "Pasted image 20230928221911.png",
-    "Pasted image 20230928221642.png",
-    "Pasted image 20230928220908.png",
-    "Pasted image 20230928213310.png",
-    "Pasted image 20230928212914.png",
-    "Pasted image 20230928211927.png",
-    "Pasted image 20230928211652.png",
-    "Pasted image 20230928211556.png",
-    "Pasted image 20230928211330.png",
-    "Pasted image 20230928211241.png",
+    "Pasted image 20230928232428.png",
     "README.md",
-    "MySQL/MySQL基础/image",
+    "Git/git.md",
+    "Git/image",
+    "MySQL/MySQL基础/image/Pasted image 20230928224854.png",
+    "Git",
     "MySQL/MySQL基础/mysql基础.md",
+    "MySQL/MySQL基础/image/Pasted image 20230928224819.png",
+    "MySQL/MySQL基础/image/Pasted image 20230928224815.png",
+    "MySQL/MySQL基础/image/Pasted image 20230928224425.png",
+    "MySQL/MySQL基础/image/Pasted image 20230928223901.png",
+    "MySQL/MySQL基础/image/Pasted image 20230928223720.png",
+    "MySQL/MySQL基础/image/Pasted image 20230928223522.png",
+    "MySQL/MySQL基础/image/Pasted image 20230928222136.png",
+    "MySQL/MySQL基础/image/Pasted image 20230928221911.png",
+    "MySQL/MySQL基础/image/Pasted image 20230928221642.png",
+    "MySQL/MySQL基础/image",
     "前端/CSS 高级技巧.md",
     "MySQL/MySQL基础",
     "MySQL",
@@ -211,10 +213,7 @@
     "杂记/剧本1.3.md",
     "算法刷题个人题解/luogu题解/AC/函数结构体/P1304 哥德巴赫猜想.md",
     "算法刷题个人题解/luogu题解/AC/函数结构体/P5736 质数筛(AC).md",
-    "算法刷题个人题解/luogu题解/AC/函数结构体/P5737 闰年展示(AC).md",
     "算法刷题个人题解/luogu题解/AC/函数结构体",
-    "算法刷题个人题解/luogu题解/AC/动态规划/01背包",
-    "算法刷题个人题解/luogu题解/AC/动态规划",
     "未命名.canvas"
   ]
 }
