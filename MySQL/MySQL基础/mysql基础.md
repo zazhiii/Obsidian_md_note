@@ -45,4 +45,6 @@
 ### 聚合函数
  ![[Pasted image 20230928120204.png]]
 ### 分组查询
-![[Pasted image 20230928120337.png]]
+![[Pasted image 20230928124327.png]]
+
+# p19
