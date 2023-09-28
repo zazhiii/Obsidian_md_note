@@ -42,3 +42,7 @@
 ![[Pasted image 20230926225144.png]]
 ### 条件查询
 ![[Pasted image 20230927124914.png]]
+### 聚合函数
+ ![[Pasted image 20230928120204.png]]
+### 分组查询
+![[Pasted image 20230928120337.png]]
