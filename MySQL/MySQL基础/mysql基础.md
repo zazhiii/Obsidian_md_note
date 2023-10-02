@@ -92,4 +92,38 @@
 ![[Pasted image 20230928224854.png]]
 
 # 五. 多表查询
-# P37
+## 1.多表关系
+![[Pasted image 20231001204555.png]]
+![[Pasted image 20231001204650.png]]
+![[Pasted image 20231001204808.png]]
+![[Pasted image 20231001205545.png]] 
+## 2. 多表查询概述
+![[Pasted image 20231001210349.png]]
+![[Pasted image 20231001210716.png]]
+## 3.内连接
+- 隐式内连接
+- 显式内连接
+![[Pasted image 20231001210837.png]]
+## 4.外连接
+![[Pasted image 20231001211713.png]]
+## 5.自连接
+![[Pasted image 20231001212300.png]]
+- 联合查询
+![[Pasted image 20231001213427.png]]
+## 6.子查询
+![[Pasted image 20231001213606.png]]
+ - 标量子查询
+![[Pasted image 20231001214134.png]]
+- 列子查询
+![[Pasted image 20231001214224.png]]
+- 行子查询
+![[Pasted image 20231001215547.png]]
+- 表子查询
+![[Pasted image 20231001220532.png]]
+- 总结
+![[Pasted image 20231001225702.png]]
+# 六. 事务
+## 1.简介
+![[Pasted image 20231002172855.png]]
+## 2. 事务操作
+# p52 1:01
