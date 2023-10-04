@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Git/git.md",
+                "file": "MySQL/MySQL进阶/MySQL进阶.md",
                 "mode": "source",
                 "source": false
               }
@@ -77,8 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "3f53aefbef31667e",
@@ -94,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Git/git.md",
+                "file": "MySQL/MySQL进阶/MySQL进阶.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Git/git.md",
+                "file": "MySQL/MySQL进阶/MySQL进阶.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Git/git.md"
+                "file": "MySQL/MySQL进阶/MySQL进阶.md"
               }
             }
           },
@@ -167,53 +166,54 @@
       "remotely-save:Remotely Save": false
     }
   },
-  "active": "bf3d5aefe5cf8349",
+  "active": "e9d324d69f043f1a",
   "lastOpenFiles": [
-    "MySQL/MySQL基础/mysql基础.md",
-    "Pasted image 20231002172855.png",
-    "MySQL/MySQL基础/image/Pasted image 20231001225702.png",
-    "MySQL/MySQL基础/image/Pasted image 20231001220532.png",
-    "MySQL/MySQL基础/image/Pasted image 20231001220530.png",
-    "MySQL/MySQL基础/image/Pasted image 20231001215547.png",
-    "MySQL/MySQL基础/image/Pasted image 20231001214224.png",
-    "MySQL/MySQL基础/image/Pasted image 20231001214134.png",
-    "MySQL/MySQL基础/image/Pasted image 20231001213606.png",
-    "MySQL/MySQL基础/image/Pasted image 20231001213427.png",
-    "MySQL/MySQL基础/image/Pasted image 20231001213004.png",
+    "Linux/image/Pasted image 20231004132425.png",
+    "Linux/image/Pasted image 20231004154617.png",
+    "Linux/Linux.md",
+    "Linux/image/Pasted image 20231004154605.png",
+    "Linux/image/Pasted image 20231004153946.png",
+    "Linux/image/Pasted image 20231004153328.png",
+    "Linux/image/Pasted image 20231004153253.png",
+    "Linux/image/Pasted image 20231004153052.png",
+    "Linux/image/Pasted image 20231004152934.png",
+    "Linux/image/Pasted image 20231004152819.png",
+    "Linux/image/Pasted image 20231004152628.png",
+    "Linux/image/Pasted image 20231004152406.png",
+    "前端/CSS 基础笔记.md",
+    "前端/CSS 高级技巧.md",
+    "算法刷题/Java常用API.md",
+    "算法刷题/算法.md",
+    "算法刷题/解题 _ 数据结构.md",
+    "Linux/image",
+    "MySQL/MySQL进阶/MySQL进阶.md",
+    "Linux",
+    "MySQL/MySQL基础/MySQL基础.md",
+    "MySQL/MySQL进阶/image",
+    "MySQL/MySQL进阶",
     "Git/git.md",
     "README.md",
     "Git/image",
     "Git",
     "MySQL/MySQL基础/image",
-    "前端/CSS 高级技巧.md",
     "MySQL/MySQL基础",
     "MySQL",
     "算法刷题个人题解/luogu题解/AC/函数结构体/P5735 距离函数(AC).md",
-    "算法刷题/算法.md",
-    "算法刷题/解题 _ 数据结构.md",
-    "账号/校园网认证.md",
+    "杂记/账号/校园网认证.md",
     "coding学习相关/计算机基础.md",
-    "game/原/宝箱.md",
-    "game/原/材料.md",
-    "game/缺氧/缺氧.md",
-    "game",
+    "杂记/game/原/宝箱.md",
+    "杂记/game/原/材料.md",
+    "杂记/game/缺氧/缺氧.md",
+    "杂记/game",
     "杂记/造梦无双养号攻略.md",
     "eclipse注意事项.md",
     "coding学习相关/技术类 书籍阅读.md",
     "作业.md",
-    "杂记",
-    "coding学习相关",
-    "账号/steam.md",
-    "账号/Microsoft.md",
-    "账号/Apple ID.md",
-    "账号/英雄联盟.md",
+    "杂记/账号/steam.md",
+    "杂记/账号/Microsoft.md",
+    "杂记/账号/Apple ID.md",
+    "杂记/账号/英雄联盟.md",
     "算法刷题个人题解/luogu题解/wrong/DFS/P1088  火星人.md",
-    "算法刷题个人题解",
-    "安排计划.md",
-    "杂记/剧本1.3.md",
-    "算法刷题个人题解/luogu题解/AC/函数结构体/P1304 哥德巴赫猜想.md",
-    "算法刷题个人题解/luogu题解/AC/函数结构体/P5736 质数筛(AC).md",
-    "算法刷题个人题解/luogu题解/AC/函数结构体",
     "未命名.canvas"
   ]
 }

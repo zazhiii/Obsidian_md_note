@@ -20,6 +20,8 @@
 ### 表操作(增删改查)
 ![[Pasted image 20230926163750.png]]
 ![[Pasted image 20230926164543.png]]
+
+ - **下列操作用图形化界面操作**
 ![[Pasted image 20230926171816.png]]
 ![[Pasted image 20230926171109.png]]
 ![[Pasted image 20230926171531.png]]
@@ -39,6 +41,7 @@
 ![[Pasted image 20230926224942.png]]
 ### 基本查询
 ![[Pasted image 20230926225144.png]]
+`select * from ...`实际开发少用, 不直观, 影响效率
 ### 条件查询
 ![[Pasted image 20230927124914.png]]
 ### 聚合函数
@@ -54,7 +57,7 @@
 ### 总结
 ![[Pasted image 20230928210147.png]]
 
-## 4.DCL
+## ~~4.DCL~~
 ![[Pasted image 20230928210255.png]]
 ### 管理用户
 ![[Pasted image 20230928210952.png]]
@@ -85,7 +88,7 @@
 ## 2.外键约束
 ![[Pasted image 20230928223720.png]]
 ![[Pasted image 20230928224425.png]]
-- 项目用逻辑外键?
+- **项目推荐使用逻辑外键**
 
 ![[Pasted image 20230928224819.png]]
 ## 3.总结
@@ -126,4 +129,19 @@
 ## 1.简介
 ![[Pasted image 20231002172855.png]]
 ## 2. 事务操作
-# p52 1:01
+![[Pasted image 20231003111112.png]]
+![[Pasted image 20231003111720.png]]
+## 3. 事务的四大特性
+![[Pasted image 20231003112346.png]]
+## 4.并发事务问题
+![[Pasted image 20231003112833.png]]
+## 5.事务隔离级别
+![[Pasted image 20231003114241.png]]
+- 一般用默认级别不会做修改
+## 6.总结
+![[Pasted image 20231003114347.png]]
+
+# 七. 基础总结
+- SQL: 开发人员重点掌握DDL, DML, DQL
+![[Pasted image 20231003114757.png]]
+- -->SQL优化, 分库分表.....
