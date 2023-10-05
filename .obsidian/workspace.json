@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "a2a9dff861421993",
+        "id": "c6a0b8402dae13b3",
         "type": "tabs",
         "children": [
           {
-            "id": "e9d324d69f043f1a",
+            "id": "c36e59f1956f0de7",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -77,7 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 352.5
   },
   "right": {
     "id": "3f53aefbef31667e",
@@ -166,29 +166,29 @@
       "remotely-save:Remotely Save": false
     }
   },
-  "active": "e9d324d69f043f1a",
+  "active": "bf3d5aefe5cf8349",
   "lastOpenFiles": [
-    "Linux/image/Pasted image 20231004132425.png",
-    "Linux/image/Pasted image 20231004154617.png",
+    "Pasted image 20231005234947.png",
+    "MySQL/MySQL基础/image/Pasted image 20231001214134.png",
+    "MySQL/MySQL基础/image/Pasted image 20230928223720.png",
+    "MySQL/MySQL基础/image/Pasted image 20230928211330.png",
+    "MySQL/MySQL基础/image/Pasted image 20230928120337.png",
+    "MySQL/MySQL基础/image/Pasted image 20230926224011.png",
+    "MySQL/MySQL基础/image/Pasted image 20230926222658.png",
+    "MySQL/MySQL基础/image/Pasted image 20230926171924.png",
+    "MySQL/MySQL基础/image/Pasted image 20230926171856.png",
+    "MySQL/MySQL基础/image/Pasted image 20230926171816.png",
+    "MySQL/MySQL基础/image/Pasted image 20230926171531.png",
+    "MySQL/MySQL基础/MySQL基础.md",
+    "MySQL/MySQL进阶/MySQL进阶.md",
     "Linux/Linux.md",
-    "Linux/image/Pasted image 20231004154605.png",
-    "Linux/image/Pasted image 20231004153946.png",
-    "Linux/image/Pasted image 20231004153328.png",
-    "Linux/image/Pasted image 20231004153253.png",
-    "Linux/image/Pasted image 20231004153052.png",
-    "Linux/image/Pasted image 20231004152934.png",
-    "Linux/image/Pasted image 20231004152819.png",
-    "Linux/image/Pasted image 20231004152628.png",
-    "Linux/image/Pasted image 20231004152406.png",
     "前端/CSS 基础笔记.md",
     "前端/CSS 高级技巧.md",
     "算法刷题/Java常用API.md",
     "算法刷题/算法.md",
     "算法刷题/解题 _ 数据结构.md",
     "Linux/image",
-    "MySQL/MySQL进阶/MySQL进阶.md",
     "Linux",
-    "MySQL/MySQL基础/MySQL基础.md",
     "MySQL/MySQL进阶/image",
     "MySQL/MySQL进阶",
     "Git/git.md",

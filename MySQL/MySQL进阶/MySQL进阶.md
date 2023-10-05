@@ -27,7 +27,37 @@
 ## 5. 总结
 ![[Pasted image 20231003141212.png]]
 
-# 二. 索引(! ! !)
+# 二. 索引(重要 核心! ! !)
 - 生产 测试 开发环境绝大部分用Linux版本MySQL
-- # p65 5:42
-- rpm安装mysql
+- Linux环境安装mysql, 并DataGrip成功远程连接
+## 1.索引概述
+![[Pasted image 20231005111542.png]]
+![[Pasted image 20231005111739.png]]
+- 索引并不是二叉树
+![[Pasted image 20231005111922.png]]
+## 2.索引结构
+![[Pasted image 20231005112029.png]]
+![[Pasted image 20231005230648.png]]
+- 相关数据结构 
+![[Pasted image 20231005230952.png]]
+![[Pasted image 20231005231132.png]]
+![[Pasted image 20231005231646.png]]
+![[Pasted image 20231005231829.png]]
+- MySQL优化了B+树
+![[Pasted image 20231005231930.png]]
+- 哈希索引
+![[Pasted image 20231005232230.png]]
+![[Pasted image 20231005232351.png]]
+![[Pasted image 20231005232803.png]]
+## 3.索引分类
+![[Pasted image 20231005232948.png]]
+![[Pasted image 20231005233238.png]]
+![[Pasted image 20231005233359.png]]
+![[Pasted image 20231005233646.png]]
+- 思考 
+![[Pasted image 20231005233953.png]]
+![[Pasted image 20231005234427.png]]
+## 4. 索引语法
+![[Pasted image 20231005234947.png]]
+## 5. SQL性能分析
+# P75
