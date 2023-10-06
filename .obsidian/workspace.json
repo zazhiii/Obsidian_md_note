@@ -4,18 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "c6a0b8402dae13b3",
+        "id": "c81d7b60664ca286",
         "type": "tabs",
         "children": [
           {
-            "id": "c36e59f1956f0de7",
+            "id": "0e63e31e2a132d4b",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "MySQL/MySQL进阶/MySQL进阶.md",
-                "mode": "source",
-                "source": false
+                "file": "MySQL/MySQL进阶/image/Pasted image 20231006225623.png"
               }
             }
           }
@@ -93,7 +91,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "MySQL/MySQL进阶/MySQL进阶.md",
+                "file": "MySQL/MySQL进阶/image/Pasted image 20231006225623.png",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +108,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "MySQL/MySQL进阶/MySQL进阶.md",
+                "file": "MySQL/MySQL进阶/image/Pasted image 20231006225623.png",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +131,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "MySQL/MySQL进阶/MySQL进阶.md"
+                "file": "MySQL/MySQL进阶/image/Pasted image 20231006225623.png"
               }
             }
           },
@@ -166,21 +164,22 @@
       "remotely-save:Remotely Save": false
     }
   },
-  "active": "bf3d5aefe5cf8349",
+  "active": "0e63e31e2a132d4b",
   "lastOpenFiles": [
-    "Pasted image 20231005234947.png",
-    "MySQL/MySQL基础/image/Pasted image 20231001214134.png",
-    "MySQL/MySQL基础/image/Pasted image 20230928223720.png",
-    "MySQL/MySQL基础/image/Pasted image 20230928211330.png",
-    "MySQL/MySQL基础/image/Pasted image 20230928120337.png",
-    "MySQL/MySQL基础/image/Pasted image 20230926224011.png",
-    "MySQL/MySQL基础/image/Pasted image 20230926222658.png",
-    "MySQL/MySQL基础/image/Pasted image 20230926171924.png",
-    "MySQL/MySQL基础/image/Pasted image 20230926171856.png",
-    "MySQL/MySQL基础/image/Pasted image 20230926171816.png",
-    "MySQL/MySQL基础/image/Pasted image 20230926171531.png",
-    "MySQL/MySQL基础/MySQL基础.md",
+    "MySQL/MySQL进阶/image/Pasted image 20231006225733.png",
+    "MySQL/MySQL进阶/image/Pasted image 20231006230632.png",
+    "MySQL/MySQL进阶/image/Pasted image 20231006231136.png",
+    "MySQL/MySQL进阶/image/Pasted image 20231006231321.png",
     "MySQL/MySQL进阶/MySQL进阶.md",
+    "MySQL/MySQL进阶/image/Pasted image 20231006225623.png",
+    "MySQL/MySQL进阶/image/Pasted image 20231006225013.png",
+    "Pasted image 20231006225619.png",
+    "Pasted image 20231006225618.png",
+    "MySQL/MySQL进阶/image/Pasted image 20231006224831.png",
+    "MySQL/MySQL进阶/image/Pasted image 20231006223924.png",
+    "Pasted image 20231006211556.png.md",
+    "Pasted image 20231006210051.png.md",
+    "MySQL/MySQL基础/MySQL基础.md",
     "Linux/Linux.md",
     "前端/CSS 基础笔记.md",
     "前端/CSS 高级技巧.md",
@@ -212,8 +211,6 @@
     "杂记/账号/steam.md",
     "杂记/账号/Microsoft.md",
     "杂记/账号/Apple ID.md",
-    "杂记/账号/英雄联盟.md",
-    "算法刷题个人题解/luogu题解/wrong/DFS/P1088  火星人.md",
     "未命名.canvas"
   ]
 }

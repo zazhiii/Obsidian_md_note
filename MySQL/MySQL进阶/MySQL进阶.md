@@ -60,4 +60,44 @@
 ## 4. 索引语法
 ![[Pasted image 20231005234947.png]]
 ## 5. SQL性能分析
-# P75
+ 主要优化查询语句
+ 
+- 1. 查看执行频次
+![[Pasted image 20231006205645.png]]
+- 2. 慢查询日志
+- 此时需要借助数据库 **慢查询日志** 定位具体优化那些SQL语句
+![[Pasted image 20231006210219.png]]
+- 3. profile详细
+![[Pasted image 20231006210800.png]]
+![[Pasted image 20231006211138.png]]
+- 4. explain执行计划
+![[Pasted image 20231006211555.png]]
+![[Pasted image 20231006213311.png]]
+![[Pasted image 20231006213819.png]]
+- type最重要
+- possible_key, key, key_len, extra也可关注
+## 6. 索引使用
+![[Pasted image 20231006214948.png]]
+![[Pasted image 20231006215557.png]]
+![[Pasted image 20231006215956.png]]![[Pasted image 20231006220256.png]]
+![[Pasted image 20231006220410.png]]
+![[Pasted image 20231006220705.png]]![[Pasted image 20231006221030.png]]
+- 针对没有索引的字段也创建索引
+![[Pasted image 20231006221405.png]]
+![[Pasted image 20231006222803.png]]
+![[Pasted image 20231006223307.png]]
+![[Pasted image 20231006223740.png]]
+![[Pasted image 20231006223924.png]]
+- 前缀索引
+![[Pasted image 20231006224831.png]]
+![[Pasted image 20231006225013.png]]
+- 单列索引和联合索引
+![[Pasted image 20231006225623.png]]
+![[Pasted image 20231006225733.png]]
+## 7. 索引设计原则
+![[Pasted image 20231006230632.png]]
+## 总结
+![[Pasted image 20231006231136.png]]
+![[Pasted image 20231006231321.png]]
+
+# 3. SQL优化
