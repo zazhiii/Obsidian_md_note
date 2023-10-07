@@ -17,7 +17,7 @@
 ---
 忽略文件: 名为`.gitignore`的文件即为忽略列表
 
-# 分支
+# 分 支
 查看分支:  `git branch`
 创建分支:  `git branch 分支名`
 切换分支:   `git checkout 分支名`
@@ -39,4 +39,10 @@
 - hotfix/xxxx分支
 ![[Pasted image 20231002231911.png]]
 
-# p12
+# 远程仓库(gitee)
+1. 新建仓库
+2. 生成SSH密钥: `ssh-keygen -t rsa`
+	不断回车
+	查看密钥: `cat ~/.ssh/id_rsa.pub`
+	gitee设置ssh公钥
+	验证配置: `ssh -T git@gitee.com`

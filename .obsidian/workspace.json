@@ -11,9 +11,11 @@
             "id": "0e63e31e2a132d4b",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "MySQL/MySQL进阶/image/Pasted image 20231006225623.png"
+                "file": "Git/git.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
@@ -75,7 +77,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 352.5
+    "width": 352.5,
+    "collapsed": true
   },
   "right": {
     "id": "3f53aefbef31667e",
@@ -91,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "MySQL/MySQL进阶/image/Pasted image 20231006225623.png",
+                "file": "Git/git.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -108,7 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "MySQL/MySQL进阶/image/Pasted image 20231006225623.png",
+                "file": "Git/git.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -131,7 +134,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "MySQL/MySQL进阶/image/Pasted image 20231006225623.png"
+                "file": "Git/git.md"
               }
             }
           },
@@ -164,19 +167,20 @@
       "remotely-save:Remotely Save": false
     }
   },
-  "active": "0e63e31e2a132d4b",
+  "active": "bf3d5aefe5cf8349",
   "lastOpenFiles": [
-    "MySQL/MySQL进阶/image/Pasted image 20231006225733.png",
-    "MySQL/MySQL进阶/image/Pasted image 20231006230632.png",
-    "MySQL/MySQL进阶/image/Pasted image 20231006231136.png",
-    "MySQL/MySQL进阶/image/Pasted image 20231006231321.png",
     "MySQL/MySQL进阶/MySQL进阶.md",
-    "MySQL/MySQL进阶/image/Pasted image 20231006225623.png",
-    "MySQL/MySQL进阶/image/Pasted image 20231006225013.png",
-    "Pasted image 20231006225619.png",
-    "Pasted image 20231006225618.png",
-    "MySQL/MySQL进阶/image/Pasted image 20231006224831.png",
-    "MySQL/MySQL进阶/image/Pasted image 20231006223924.png",
+    "MySQL/MySQL进阶/image/Pasted image 20231007191834.png",
+    "MySQL/MySQL进阶/image/Pasted image 20231007191243.png",
+    "MySQL/MySQL进阶/image/Pasted image 20231007190645.png",
+    "MySQL/MySQL进阶/image/Pasted image 20231007190108.png",
+    "杂记/账号/steam.md",
+    "Pasted image 20231007190031.png",
+    "MySQL/MySQL进阶/image/Pasted image 20231007185825.png",
+    "MySQL/MySQL进阶/image/Pasted image 20231007185538.png",
+    "MySQL/MySQL进阶/image/Pasted image 20231007181922.png",
+    "MySQL/MySQL进阶/image/Pasted image 20231007181342.png",
+    "MySQL/MySQL进阶/image/Pasted image 20231007180351.png",
     "Pasted image 20231006211556.png.md",
     "Pasted image 20231006210051.png.md",
     "MySQL/MySQL基础/MySQL基础.md",
@@ -208,7 +212,6 @@
     "eclipse注意事项.md",
     "coding学习相关/技术类 书籍阅读.md",
     "作业.md",
-    "杂记/账号/steam.md",
     "杂记/账号/Microsoft.md",
     "杂记/账号/Apple ID.md",
     "未命名.canvas"

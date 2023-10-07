@@ -75,9 +75,10 @@
 ![[Pasted image 20231006213311.png]]
 ![[Pasted image 20231006213819.png]]
 - type最重要
-- possible_key, key, key_len, extra也可关注
+- possible_key, key, key_len, extra也关注
 ## 6. 索引使用
 ![[Pasted image 20231006214948.png]]
+- 最左前缀法则
 ![[Pasted image 20231006215557.png]]
 ![[Pasted image 20231006215956.png]]![[Pasted image 20231006220256.png]]
 ![[Pasted image 20231006220410.png]]
@@ -101,3 +102,41 @@
 ![[Pasted image 20231006231321.png]]
 
 # 3. SQL优化
+## 1. 插入数据
+![[Pasted image 20231007172033.png]]
+![[Pasted image 20231007172250.png]]
+- 主键顺序插性能高于乱序插入 
+## 2. 主键优化
+![[Pasted image 20231007173105.png]]
+![[Pasted image 20231007173202.png]]
+- 页分裂
+![[Pasted image 20231007173534.png]]
+![[Pasted image 20231007173649.png]]
+		插入过程
+![[Pasted image 20231007173755.png]]
+![[Pasted image 20231007173955.png]]
+![[Pasted image 20231007174051.png]]
+- 页合并
+![[Pasted image 20231007174317.png]]
+![[Pasted image 20231007174336.png]]
+- 主键设计原则
+![[Pasted image 20231007174530.png]]
+## 3.order by优化
+![[Pasted image 20231007175811.png]]
+![[Pasted image 20231007180257.png]]
+![[Pasted image 20231007180351.png]]
+## 4.group by优化
+![[Pasted image 20231007181342.png]]
+## 5.limit优化
+![[Pasted image 20231007181922.png]]
+## 6. count优化
+![[Pasted image 20231007185538.png]]
+![[Pasted image 20231007185825.png]]
+![[Pasted image 20231007190108.png]]
+## 7.update优化
+![[Pasted image 20231007190645.png]]
+## 总结
+ ![[Pasted image 20231007191243.png]]
+# 4.视图
+![[Pasted image 20231007191834.png]]
+# p97
