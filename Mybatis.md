@@ -22,3 +22,13 @@ mybatis是对ibatis的封装优化
 
 Mapper接口的方法不能重载
 
+---
+#{ key }: 占位符 + 赋值
+${ key }: 字符串拼接
+推荐使用前者，可以防止注入攻击。
+前者只能代替参数值的位置，不能代替关键字、列名、表名，而后者可以实现关键字动态。
+一个后者的应用场景：
+```java
+@Select("select * from user where ${column} = #{value}")
+User findByColumn(@Param("column") String column,  @Param("value") String value);
+```

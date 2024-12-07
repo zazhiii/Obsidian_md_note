@@ -8,8 +8,6 @@
 
 展示题目、判题、展示提交记录
 
-
-
 # VOJ（很完善）
 
 [simplefanC/voj: Virtual Online Judge（VOJ）是基于微服务架构的高性能在线评测系统。拥有本地判题服务，同时支持其它知名 OJ (HDU、POJ...) 的远程判题。采用现阶段流行技术实现，采用 Docker 容器化部署。 (github.com)](https://github.com/simplefanC/VOJ?tab=readme-ov-file)

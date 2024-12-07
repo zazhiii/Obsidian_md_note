@@ -66,11 +66,6 @@ systemctl enable docker
 # 执行docker ps命令，如果不报错，说明安装启动成功
 docker ps
 ```
-
-  
-
-  
-
 # 5.配置镜像加速
 
 镜像地址可能会变更，如果失效可以百度找最新的docker镜像。
