@@ -377,33 +377,33 @@ ALTER EVENT contest_event ON  COMPLETION PRESERVE DISABLE;  -- 关闭事件
 
 contest表
 
-| 列名               | 实体属性类型 | 键   | 备注                                                  |
-| ------------------ | ------------ | ---- | ----------------------------------------------------- |
-| id                 | long         | 主键 | auto_increment  1000起步                              |
-| uid                | String       | 外键 | 创建者id                                              |
-| author             | String       |      | 比赛创建者的用户名                                    |
-| title              | String       |      | 比赛标题                                              |
-| type               | int          |      | ACM赛制或者Rating                                     |
-| source             | int          |      | 比赛来源，原创为0，克隆赛为比赛id                     |
-| auth               | int          |      | 0为公开赛，1为私有赛（有密码），3为保护赛（有密码）。 |
-| pwd                | string       |      | 比赛密码                                              |
-| start_time         | datetime     |      | 开始时间                                              |
-| end_time           | datetime     |      | 结束时间                                              |
-| duration           | long         |      | 比赛时长（s）                                         |
-| description        | Srting       |      | 比赛说明                                              |
-| seal_rank          | boolean      |      | 是否开启封榜                                          |
-| seal_rank_time     | datetime     |      | 封榜起始时间，一直到比赛结束，不刷新榜单。            |
-| status             | int          |      | -1为未开始，0为进行中，1为已结束                      |
-| visible            | boolean      |      | 是否可见                                              |
-| open_print         | boolean      |      | 是否打开打印功能                                      |
-| open_account_limit | boolean      |      | 是否开启账号限制                                      |
-| account_limit_rule | String       |      | 账号限制规则                                          |
-| rank_show_name     | String       |      | 排行榜显示（username、nickname、realname）            |
-| star_account       | Stirng       |      | 打星用户列表                                          |
-| open_rank          | boolean      |      | 是否开放赛外榜单                                      |
-| auto_real_rank     | boolean      |      | 比赛结束是否自动解除封榜,自动转换成真实榜单           |
-| gmt_create         | datetime     |      | 创建时间                                              |
-| gmt_modified       | datetime     |      | 修改时间                                              |
+| 列名                     | 实体属性类型   | 键   | 备注                                |
+| ---------------------- | -------- | --- | --------------------------------- |
+| id                     | long     | 主键  | auto_increment  1000起步            |
+| uid                    | String   | 外键  | 创建者id                             |
+| ~~author~~             | String   |     | 比赛创建者的用户名                         |
+| title                  | String   |     | 比赛标题                              |
+| ~~type~~               | int      |     | ACM赛制或者Rating                     |
+| ~~source~~             | int      |     | 比赛来源，原创为0，克隆赛为比赛id                |
+| auth                   | int      |     | 0为公开赛，1为私有赛（有密码），3为保护赛（有密码）。      |
+| pwd                    | string   |     | 比赛密码                              |
+| start_time             | datetime |     | 开始时间                              |
+| end_time               | datetime |     | 结束时间                              |
+| ~~duration~~           | long     |     | 比赛时长（s）                           |
+| description            | Srting   |     | 比赛说明                              |
+| ~~seal_rank~~          | boolean  |     | 是否开启封榜                            |
+| ~~seal_rank_time~~     | datetime |     | 封榜起始时间，一直到比赛结束，不刷新榜单。             |
+| status                 | int      |     | -1为未开始，0为进行中，1为已结束                |
+| ~~visible~~            | boolean  |     | 是否可见                              |
+| ~~open_print~~         | boolean  |     | 是否打开打印功能                          |
+| ~~open_account_limit~~ | boolean  |     | 是否开启账号限制                          |
+| ~~account_limit_rule~~ | String   |     | 账号限制规则                            |
+| ~~rank_show_name~~     | String   |     | 排行榜显示（username、nickname、realname） |
+| ~~star_account~~       | Stirng   |     | 打星用户列表                            |
+| ~~open_rank~~          | boolean  |     | 是否开放赛外榜单                          |
+| ~~auto_real_rank~~     | boolean  |     | 比赛结束是否自动解除封榜,自动转换成真实榜单            |
+| gmt_create             | datetime |     | 创建时间                              |
+| gmt_modified           | datetime |     | 修改时间                              |
 
  
 
@@ -451,26 +451,26 @@ contest_score表 rating赛制中获得的分数更改记录表（未使用）
 
 contest_record表 比赛记录表
 
-| 列名         | 实体属性类型 | 键   | 备注                                                         |
-| ------------ | ------------ | ---- | ------------------------------------------------------------ |
-| id           | long         | 主键 | auto_increment                                               |
-| cid          | long         | 外键 | 比赛id                                                       |
-| uid          | String       | 外键 | 用户id                                                       |
-| pid          | int          | 外键 | 题目id                                                       |
-| cpid         | int          | 外键 | 比赛中的题目id                                               |
-| submit_id    | int          | 外键 | 提交id，用于可重判                                           |
-| display_id   | String       |      | 比赛展示的id                                                 |
-| username     | String       |      | 用户名                                                       |
-| realname     | String       |      | 真实姓名（废弃）                                             |
-| status       | int          |      | 提交结果，0表示未AC通过不罚时，1表示AC通过，-1为未AC通过算罚时 |
-| submit_time  | datetime     |      | 具体提交时间                                                 |
-| time         | int          |      | 提交时间，为提交时间减去比赛时间，时间戳                     |
-| score        | int          |      | OI比赛得分                                                   |
-| use_time     | int          |      | 提交的程序运行耗时                                           |
-| first_blood  | Boolean      |      | 是否为一血AC（废弃）                                         |
-| checked      | Boolean      |      | AC是否已校验                                                 |
-| gmt_create   | datetime     |      | 创建时间                                                     |
-| gmt_modified | datetime     |      | 修改时间                                                     |
+| 列名           | 实体属性类型   | 键   | 备注                                   |
+| ------------ | -------- | --- | ------------------------------------ |
+| id           | long     | 主键  | auto_increment                       |
+| cid          | long     | 外键  | 比赛id                                 |
+| uid          | String   | 外键  | 用户id                                 |
+| pid          | int      | 外键  | 题目id                                 |
+| cpid         | int      | 外键  | 比赛中的题目id                             |
+| submit_id    | int      | 外键  | 提交id，用于可重判                           |
+| display_id   | String   |     | 比赛展示的id                              |
+| username     | String   |     | 用户名                                  |
+| realname     | String   |     | 真实姓名（废弃）                             |
+| status       | int      |     | 提交结果，0表示未AC通过不罚时，1表示AC通过，-1为未AC通过算罚时 |
+| submit_time  | datetime |     | 具体提交时间                               |
+| time         | int      |     | 提交时间，为提交时间减去比赛时间，时间戳                 |
+| score        | int      |     | OI比赛得分                               |
+| use_time     | int      |     | 提交的程序运行耗时                            |
+| first_blood  | Boolean  |     | 是否为一血AC（废弃）                          |
+| checked      | Boolean  |     | AC是否已校验                              |
+| gmt_create   | datetime |     | 创建时间                                 |
+| gmt_modified | datetime |     | 修改时间                                 |
 
  
 
