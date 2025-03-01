@@ -173,12 +173,25 @@ explain select * from user where name = 'aaa' and gender = 1 and age = 18;
 4. 条件中字符不加引号，发生数字转字符串会导致该列和它之后的索引失效
 5. 以 % 开头的模糊匹配会导致索引失效
 
+# 3. SQL 优化的经验
+
+1. 表设计优化
+	1. 选择合适数值类型（tinyint、int、bigint）
+	2. 选择合适字符串类型，char 定长，效率高；varchar 可变长，效率相对低。
+2. SQL 语句优化
+	1. SELECT 声明字段名称（避免 SELECT * ）
+	2. 避免索引失效
+	3. 尽量用 UNION ALL 代替 UNION，UNION 会多一次过滤重复值
+	4. 避免在 WHERE 中对字段进行表达式操作
+	5. JOIN 优化尽量使用 INNER JOIN，若需要用 LEFT JOIN 和 RIGHT JOIN ，需要以小表为驱动（小表放在外层）
+3. 索引优化
+4. 主从复制，读写分离
+5. 分库分表
 
 
 
-
-# 事务
-## 事务四大特性（`ACID`）
+# 4. 事务
+## 4.1 事务四大特性（`ACID`）
 
 1. 原子性（Atomicity）：事务是不可分割的最小操作单元，要么全部成功，要么全部失败。
 2. 一致性（Consistency）：事务完成时，必须使所有的数据都保持一致状态。
@@ -186,7 +199,7 @@ explain select * from user where name = 'aaa' and gender = 1 and age = 18;
 4. 持久性（Durability）：事务一旦提交或回滚，它对数据库中的数据的改变就是永久的。
 
 e.g. 转账案例
-## 并发事务问题
+## 4.2 并发事务问题
 
 赃读：一个事务读到另外一个事务还没有提交的数据。
 
@@ -194,7 +207,7 @@ e.g. 转账案例
 
 幻读：一个事务按照条件查询数据时，没有对应的数据行，但是在插入数据时，又发现这行数据 已经存在，好像出现了 "幻影"。
 
-## 事务隔离级别
+## 4.3 事务隔离级别
 
 1. 读未提交 -- ✅脏读、✅不可重复度、✅幻读
 
@@ -203,3 +216,79 @@ e.g. 转账案例
 3. 可重复读 -- ❌脏读、❌不可重复读、✅幻读 **「MySQL默认」**
 
 4. 串行化 -- ❌脏读、❌不可重复读、❌幻读
+
+## 4.4 undo log 和 redo log
+
+**缓冲池（Buffer Pool）**：主存中的一个区域，里面可以缓存磁盘上需要经常操作的数据，在执行数据 CRUD 时，先操作缓冲池中的数据（若缓冲池没有数据，则从磁盘加载并缓存），缓冲池再以一定频率刷新到磁盘，减少磁盘 IO ，提高性能。
+
+**数据页（Page）**：InnoDB 磁盘管理的最小单元（16kb），页中存储行数据。
+
+### 4.4.1 redo log
+**redo log**：重做日志，记录事务提交时数据页的**物理修改**
+
+它实现事务的**持久性**
+
+该日志文件由 redo log buffer （内存中）和 redo log file （磁盘中）组成。当事务提交时会将数据的修改信息保存到该文件中，在**刷脏页到磁盘**出现错误时，就可以用它恢复数据。
+
+刷脏页是**随机磁盘 IO** 效率较低，所以没有采用发生数据操作立马同步缓冲池到磁盘的方案。而发生数据操作时，将操作信息记录到 redo log buffer ，再将 redo log buffer 同步到 redo log file 是顺序磁盘 IO 效率会高一些（日志文件是追加的）。这种方式叫做 Write-Ahead Logging (先写日志)。
+
+当缓冲池同步数据到磁盘后，redo log 记录的信息也就没用了，会定期清理 redo log file。
+### 4.4.2 undo log
+undo log：回滚日志，作用是提供 回滚 和 MVCC，它**是逻辑日志**
+当进行一个数据操作时，undo log 会记录一个与之相反的操作，当 rollback 时，就可以从 undo log 中的逻辑记录读取到相应内容，并进行回滚
+
+它实现了事务的 **原子性** 和 **一致性**
+
+## 4.5 MVCC
+
+当前读：读取的是记录的最新版本，读取时保证其他并发事务不能修改当前记录，会对读取的记录加锁。
+e.g. ：`select ... lock in share mode(共享锁)` 、`select ... for update` 、`update` 、`insert` 、`delete` (排他锁)。
+
+快照读：读取的是记录的可见版本，有可能是历史数据，不加锁，是非阻塞读。简单的 `select(不加锁）`就是快照读。
+- Read Committed：每次select，都生成一个快照读。 
+-  Repeatable Read：开启事务后第一个select语句才是快照读的地方。 
+- Serializable：快照读会退化为当前读。
+
+**Multi-Version Concurrency Control 多版本并发控制**。维护一个数据的多个版本，使得读写操作不冲突
+
+MVCC 实现依赖 三个隐藏字段、undo log、readView
+
+隐藏字段：
+1. DB_TRX_ID：记录最近修改该行数据的 ID，插入这条记录或者最后一次修改这条记录的事务 ID
+2. DB_ROLL_PTR：回滚指针，指向这条记录的上一个版本，用于配合 undo log ，指向上一个版本
+3. DB_ROW_ID：隐藏主键，若表结构没有主键，会生成该字段。
+
+undo log：
+回滚日志，在 insert、update、delete 的时候产生的便于数据回滚的日志。 
+当insert的时候，产生的undo log日志只在回滚时需要，在事务提交后，可被立即删除。 
+而update、delete的时候，产生的undo log日志不仅在回滚时需要，在快照读时也需要，不会立即 被删除。
+
+undo log 版本链：一些事务对同一条记录进行修改，undo log 会生成一条记录版本链，链表头部是最新数据，尾部是最旧数据。这个链表是通过 DB_ROLL_PTR 实现的。
+
+readView：快照读 SQL 执行 MVCC 提取数据的依据，他维护了当前活跃（未提交）事务的 ID
+- m_ids：当前活跃的事务 ID 的集合
+- min_trx_id：最小的活跃事务 ID
+- max_trx_id：预分配事务 ID，最大事务 ID + 1
+- creator_trx_id：ReadView 创建者的事务 ID
+
+在 undo log 版本链中的各个版本的数据根据一些规则来决定是否**对创建 readView 的事务可见**。
+换句话说，readView 的作用是判断 undo log 版本链中各个版本的数据对**当前事务**是否可见。
+
+这个规则是由版本链中数据它们对应的事务 ID ( trx_id ) 决定的。
+- trx_id == creator_trx_id ✅ 这条修改数据就是当前事务修改的，可见
+- trx_id < min_trx_id ✅ 这个事务已经提交了，可见
+- trx_id >= max_trx_id ❌ 这个事务是创建 readView 之后才开启的。
+- min_trx_id <= trx_id < max_trx_id 且 trx_id 不在 m_ids 中，✅ 事务已经提交，可见。
+
+不同的事务隔离级别生成 readView 的时机不同：
+- READ COMMITTED ：在事务中每一次执行快照读时生成ReadView。 
+- REPEATABLE READ：仅在事务中第一次执行快照读时生成ReadView，后续复用该ReadView（复用 ReadView 才能保证每次读取的数据都一致，可以这样理解）。
+
+
+# 5. 主从同步原理
+
+1. 主库将数据的改变（DDL、DML 语句）存入 **bin log** 中
+2. 从库从主库的 bin log 中读取并写入到从库的 Relay log 中
+3. 从库再执行一下 Relay log 中的
+
+# 6. 分库分表
