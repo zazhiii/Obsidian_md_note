@@ -14,8 +14,8 @@ application-dev.yml
 zz:  
   alioss:  
     endpoint: oss-cn-beijing.aliyuncs.com  
-    access-key-id: LTAI5tDzEcVJ43Ja7bLWBMyH  
-    access-key-secret: 9j7zMZfZ7uPJBkpY2yd5D1tyiTREiB  
+    access-key-id: ****************************  
+    access-key-secret: **************************  
     bucket-name: big-eventzazhiii
 ```
 # 属性类
