@@ -119,6 +119,19 @@ public A(@Lazy B b){
 	this.b = b;
 }
 ```
+
+# Spring MVC 的执行流程
+![[Pasted image 20250305223926.png]]
+1. 浏览器发送请求，`DispatcherServlet` 拦截请求
+2. 调用`HandlerMapping`根据URL匹配handler，将相关的拦截器一起封转返回
+3. 调用`HandlerAdapter`执行handler，返回ModelView给`DispatcherServlet`
+4. 调用`ViewResolver` 将逻辑视图解析为真正视图
+5. 将View返回给浏览器
+
+![[Pasted image 20250305224027.png]]
+1. 浏览器发送请求，`DispatcherServlet` 拦截请求
+2. 调用`HandlerMapping`根据URL匹配handler，将相关的拦截器一起封转返回
+3. 调用`HandlerAdapter`执行handler，将数据转为JSON并响应
 # 2. AOP
 
 AOP：面向切面编程，将与业务逻辑无关的重复性代码抽取出来封装成一个可重用模块，降低模块耦合
