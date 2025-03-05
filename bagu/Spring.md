@@ -52,14 +52,73 @@ Bean的作用域：用于确定哪种类型的bean实例应该从Spring容器中
 
 
 
-Bean 的生命周期？
-1. 创建 Bean 实例：通过反射创建
-2. Bean 属性赋值
-3. Bean 初始化
-4. 销毁 Bean 
+## Bean 的生命周期？
+
+`BeanDefinition` Spring 容器在进行实例化时，会将 xml 中配置的 bean 标签 信息封装为一个`BeanDefinition`（通过注解的方式也类似），Spring 工具它来创建 Bean 对象，里面有描述 Bean 属性的信息。
+- beanClassName：bean 的类名
+- initMethodName：初始化方法的名称
+- propertyValues：bean 的属性值
+- scope：作用域
+- lazyInit：延迟初始化
+
+1. 通过 BeanDefinition 获取 bean 的定义信息
+2. 调用构造函数实例化 bean
+3. bean 的依赖注入（`@Autowired`、`@Resource`、构造函数、setter注入的对象，`@Value`注入的值）
+4. 若 bean 实现了 Aware 接口，会调用对应实现的方法（`BeanNameAware`、`BeanFactoryAware`、……）
+> 实现这些 Aware 接口能让 bean 获取到 Spring 容器的资源
+> `BeanNameAware`：实现他的 `setBeanName()`，可以获取 bean 的名字
+> `BeanFactoryAware`：实现他的`setBeanFactory`，可以获取 BeanFactory 的引用
+5. 执行`postProcessBeforeInitialization()` 方法(`BeanPostProcesser`对象中)
+6. 执行`afterPropertiesSet()`方法(实现`InitializingBean`接口)，执行`init-method`(自定义初始化方法)
+7. 执行`postProcessAfterInitialization()` 方法(`BeanPostProcesser`对象中)
+8. 销毁 Bean
 
 
+5. 创建 Bean 实例：通过反射创建
+6. Bean 属性赋值
+7. Bean 初始化
+8. 销毁 Bean 
 
+## 循环依赖
+
+循环依赖：Bean 对象循环引用，两个或多个对象互相持有对方的引用
+
+Spring 允许循环依赖存在，用「三级缓存」解决大部分循环依赖
+1. 一级缓存：单例池，缓存最终形态的 bean （已实例化、已属性填充、初始化）
+2. 二级缓存：缓存早期 bean 对象（半成品、未填充属性）
+3. 三级缓存：缓存 ObjectFactory，对象工厂，用来创建某个对象。
+
+创建 bean 的流程
+1. 先从「一级缓存」获取，存在则返回
+2. 没获取到再从「二级缓存」中获取
+3. 还没获取到再从「三级缓存」中获取对应 BeanFactory 创建对应 bean 对象并放入二级缓存中，删除三级缓存的该 BeanFactoy 
+
+Spring 解决不了的循环依赖
+三级缓存只能解决初始化的时候的循环依赖，构造方法注入产生的循环依赖
+```java
+@Component
+public class A{
+	private B b;
+	public A(B b){
+		this.b = b;
+	}
+}
+
+@Component
+public class B{
+	private A a;
+	public B(A a){
+		this.a = a;
+	}
+}
+```
+
+通过 `@Lazy` 延迟加载，需要 bean 的时候再去创建
+```java
+public A(@Lazy B b){
+	this.b = b;
+}
+```
 # 2. AOP
 
 AOP：面向切面编程，将与业务逻辑无关的重复性代码抽取出来封装成一个可重用模块，降低模块耦合
