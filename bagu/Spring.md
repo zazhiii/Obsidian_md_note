@@ -179,4 +179,11 @@ Spring 为方法创建代理、添加事务通知，前提是该方法是 public
 
 
 
+# SpringBoot 自动装配原理
 
+1. 在 SpringBoot 引导类上有一个注解`@SpringBootApplication`，这是三个注解的组合
+	- `@SpringBootConfiguration`
+	- `@ComponentScan`
+	- `@EnableAutoConfiguration`
+2. 其中`@EnableAutoConfiguration`是自动配置的核心注解，它通过`@Import`导入配置选择器（一个类）。内部读取了该项目和引用 jar 包的 class path 下 META-INF/spring.factories文件所配置类的全类名。再这些配置类中所定义的 bean 会根据「条件注解」来决定是否要将其加入 Spring 容器中
+3. 条件注解例如`@ConditinalOnClass`，判断是否有对应的 class 文件，有则加载该类，将该配置类的 Bean 加入容器
