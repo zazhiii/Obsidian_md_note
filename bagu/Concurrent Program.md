@@ -34,6 +34,7 @@ RUNNABLE 运行状态
 BLOCKED 阻塞状态
 WATING 等待状态
 TIME_WATING 超时等待
+TERMINATED 终结状态
 
 # 为什么要使用多线程？
 
