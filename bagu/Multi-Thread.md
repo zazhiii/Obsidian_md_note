@@ -183,3 +183,154 @@ public static void sleeping() throws InterruptedException {
 3. 使用`interrupt()`方法中断线程
 	1. 打断阻塞的线程，会抛出`InterruptException`异常
 	2. 打断正常线程，可以根据「打断状态」标记是否退出线程 
+
+
+# 线程安全
+
+## synchronized 原理 TODO
+
+Synchronized「对象锁」采用互斥的方式让同一时刻至多只有一个线程持有「对象锁」，其他线程再想获取这个「对象锁」时会阻塞
+
+他是由 Monitor 实现的，Monitor 时 JVM 级别的对象（C++实现）。当线程进入 synchronized 代码块中时，将对象锁与 Monitor 关联，检查 Owner 是否为 null，若为 null 则让当前线程持有对象锁；若不为 null 则到 EntryList 中等待（Blocked 状态）。若线程调用 wait 方法，则进入 WaitSet 中。
+
+Monitor 结构
+- Owner：存储当前获取锁的线程，只能有一个线程
+- EntryList：关联没有抢到锁的线程，处于 Blocked 状态的线程
+- WaitSet：关联调用了 wait 方法的线程，处于 Wating 状态的线程
+
+## JMM
+
+Java Memory Model
+
+定义了共享内存中多线程程序读写操作的行为规范，通过这些规则来规范对内存的读写操作从而保证指令的正确性
+
+JMM 把内存分为两块，一块是私有线程的工作区域（工作内存），一块是所有线程的共享区域（主内存）。
+
+线程之间互相隔离，线程之间交互需要通过主内存。
+
+## CAS
+
+Compare And Swap，一种「乐观锁」的思想，在无锁情况下保证线程操作共享数据的原子性。
+
+在操作共享变量时使用自旋锁，效率更高（并没有真正加锁）
+
+
+## volatile
+
+若共享变量（类的成员变量，类的静态成员变量）被 volatile 修饰，那么有两个作用：
+1. 保证线程间的可见性
+	>加上 volatile 就是告诉 JIT 不要该变量做优化
+2. 禁止指令重排序
+
+volatile 使用技巧：
+- 写变量让 volatile 修饰的变量在代码最后
+- 读变量让 volatile 修饰的变量在代码最前
+
+## AQS
+
+
+# 线程池
+
+
+## 线程池的核心参数
+
+```java
+//构造器，参数是重点
+public ThreadPoolExecutor(
+			int corePoolSize, // 核心线程数量
+			int maximumPoolSize, // 最大线程数量(最大线程数 = 核心线程数 + 临时线程数)
+			long keepAliveTime, // 临时线程的存活时间
+			TimeUnit unit, // 临时线程的存活时间单位
+			BlockingQueue<Runnable> workQueue, // 任务队列
+			ThreadFactory threadFactory, // 线程工厂
+			RejectedExecutionHandler handler // 任务拒绝策略
+)
+```
+
+## 线程池的执行原理
+
+1. 提交任务，判断核心线程是否已满。否，则添加任务到核心线程执行。
+2. 是，则判断阻塞队列是否已满。阻塞队列没满则添加任务到阻塞队列中
+3. 阻塞队列满了则在判断线程数是否小于等于最大线程数。是，则创建临时线程执行任务。
+4. 若线程数也达到了最大线程数，则使用拒绝策略处理任务。
+
+>拒绝策略：
+>1. 直接抛异常（默认）
+>2. 使用主线程来执行任务
+>3. 丢弃阻塞队列中最前的任务，并执行当前任务
+>4. 直接丢弃任务
+
+
+## 线程池中有哪些常见阻塞队列
+
+1. `ArrayBlockingQueue` 基于数组的有界阻塞队列，FIFO
+2. `LinkedBlockingQueue`基于链表的有界阻塞队列，FIFO
+
+区别：
+
+| `ArrayBlockingQueue` | `LinkedBlockingQueue`（开发中运用更多）         |
+| -------------------- | -------------------------------------- |
+| 强制有界                 | 默认无界（`Integer.MAX_VALUE`），支持有界（推荐设置界限） |
+| 底层是数组                | 底层是链表                                  |
+| 提前初始化 Node 数组        | 是懒惰的，创建节点的时候生成 Node，添加数据               |
+| 出队和入队是一把锁（效率更低）      | 出队和入队是两把锁（效率更高）                        |
+
+## 如何确定核心线程数
+
+IO密集型任务：核心线程数大小设置为 $2N + 1$
+
+CPU密集型任务：核心线程数大小设置为 $N+1$
+
+
+## 线程池的种类
+
+`Executors`类中提供了许多创建线程池的静态方法，常见的四种
+
+1. 创建使用固定线程数的线程池
+核心线程数和最大线程数一致，没有临时线程
+```java
+public static ExecutorService newFixedThreadPool(int nThreads) {  
+    return new ThreadPoolExecutor(nThreads, nThreads,  
+                                  0L, TimeUnit.MILLISECONDS,  
+                                  new LinkedBlockingQueue<Runnable>());  
+}
+```
+>用于任务量已知，相对耗时的任务
+
+2. 单线程话的线程池，只用唯一的工作线程来执行任务，保证所有任务按照指定顺序 FIFO 执行
+```java
+public static ExecutorService newSingleThreadExecutor() {  
+    return new FinalizableDelegatedExecutorService  
+        (new ThreadPoolExecutor(1, 1,  
+                                0L, TimeUnit.MILLISECONDS,  
+                                new LinkedBlockingQueue<Runnable>()));  
+}
+```
+
+3. 可缓存线程池
+没有核心线程数，最大线程数为`Integer.MAX_VALUE`。
+```java
+public static ExecutorService newCachedThreadPool() {  
+    return new ThreadPoolExecutor(0, Integer.MAX_VALUE,  
+                                  60L, TimeUnit.SECONDS,  
+                                  new SynchronousQueue<Runnable>());  
+}
+```
+>适合任务比较密集，单任务执行时间短的情况
+
+4. 提供“延时”和“周期执行”功能的ThreadPoolExecutor
+```java
+ScheduledExecutorService exe3 = Executors.newScheduledThreadPool(3);
+
+// 他的任务提交方法是schedule(Runnable command, long delay, TimeUnit unit); 而不是 submit
+exe3.schedule(new Task(), 2, TimeUnit.SECONDS); // 两秒之后提交
+
+```
+
+## 为什么不建议用`Executors`创建线程池
+
+【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这 样的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。 
+
+说明：Executors 返回的线程池对象的弊端如下： 
+1） FixedThreadPool 和 SingleThreadPool： 允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。 
+2） CachedThreadPool： 允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM

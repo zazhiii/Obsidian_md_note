@@ -84,7 +84,7 @@ void notifyAll()
 JDK5起提供了代表线程池的「接口」：ExecutorService
 
 如何获取线程池对象：
-1. 通过实现类 ThreadPoolExcutor 自创建线程池对象
+1. 通过实现类 ThreadPoolExecutor 自创建线程池对象
 ```java
 //构造器，参数是重点
 public ThreadPoolExecutor(
