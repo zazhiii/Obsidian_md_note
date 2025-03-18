@@ -334,3 +334,78 @@ exe3.schedule(new Task(), 2, TimeUnit.SECONDS); // 两秒之后提交
 说明：Executors 返回的线程池对象的弊端如下： 
 1） FixedThreadPool 和 SingleThreadPool： 允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。 
 2） CachedThreadPool： 允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM
+
+# 线程池使用场景
+
+## CountDownLatch
+
+CountDownLatch（闭锁/倒计时锁）用来进行线程同步协作，等待所有线程完成倒计时（一个或者多个程序，等待其他多个线程完成某件事之后再执行）
+
+- 使用构造参数初始化等待计时
+```java
+CountDownLatch countDownLatch = new CountDownLatch(3);
+```
+
+- `await()`用来等待计时器归零
+```java
+countDownLatch.await();
+```
+
+-  `countDown()`让计数减一
+```java
+countDownLatch.countDown();
+```
+
+应用场景：线程池 + CountDownLatch
+![[Pasted image 20250316163214.png]]
+
+将每一页的导入作为一个任务提交到线程池，有$n$页就会有$n$个导入任务，`CountDownLatch`的倒计时值同样设置为$n$。主线程调用`await()`方法，等待$n$个任务完成（倒计时值减为0）再继续执行后续逻辑。
+
+## 数据汇总
+
+若开发中遇到需要调用多个接口获取数据，接口之间没有依赖关系，就可以用 「线程池」+「futrue」来并行执行这些接口，提高性能。 
+
+## 异步调用
+
+避免下一级方法影响上一级方法，可以使用异步调用执行下一级方法（不依赖下一级方法）。
+
+## 如何控制方法的并发访问线程的数量
+
+`Semaphore`是一个计数信号量，用来保护一个或多个共享资源的访问
+
+1. 创建`Semaphore`对象，可以给一个容量
+```java
+Semaphore semaphore = new java.util.concurrent.Semaphore(3);
+```
+
+2. 通过 acquire() 获取一个许可，release() 释放一个许可
+```java
+semaphore.acquire();
+// do ……
+semaphore.release();
+```
+
+如果许可不足，acquire() 会阻塞，直到有许可
+
+# ThreadLocal
+
+ThreadLocal 本质是线程内部存储类，从而让多个线程只操作自己内部的值，从而实现线程数据隔离。
+
+## 原理：
+
+每个线程内部维护了一个 ThreadLocalMap，他本质是一个哈希表
+
+![[Pasted image 20250316185308.png]]
+
+第一次添加数据：
+
+![[Pasted image 20250316172525.png]]
+
+取值
+![[Pasted image 20250316182744.png]]
+
+## 内存泄露问题
+
+ThreadLocalMap 中的 key 是弱引用，值为强引用。key 会被 GC 释放内存，而关联的 value 的内存并不会释放。建议主动 `remove()`释放 key 和 value
+
+防止内存泄露：务必`remove()`
