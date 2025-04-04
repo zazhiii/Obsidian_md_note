@@ -1,6 +1,6 @@
 #### 欢迎
 
-欢迎来到栅格处理器教程。本教程假设您已完成任一快速入门教程的学习。
+欢迎来到覆盖处理器教程。本教程假设您已完成任一快速入门教程的学习。
 
 请确保您的IDE已配置好GeoTools Jar包访问权限（可通过Maven或Jar目录实现）。所需Maven依赖项将在前置条件章节开头列出。
 
@@ -53,7 +53,8 @@ import org.geotools.util.Arguments;
 import org.geotools.util.factory.Hints;
 
 /**
- * 基于地理范围均分实现栅格数据简单分块。使用栅格处理操作。
+ * 简单的覆盖数据分块工具，根据指定的水平/垂直块数对地理包络线进行细分。
+ * 使用覆盖处理操作。
  */
 public class ImageTiler {
 
@@ -66,14 +67,53 @@ public class ImageTiler {
     private File inputFile;
     private File outputDirectory;
 
-    // ... (省略getter/setter方法)
+    private String getFileExtension(File file) {
+        String name = file.getName();
+        try {
+            return name.substring(name.lastIndexOf(".") + 1);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public Integer getNumberOfHorizontalTiles() {
+        return numberOfHorizontalTiles;
+    }
+
+    public void setNumberOfHorizontalTiles(Integer numberOfHorizontalTiles) {
+        this.numberOfHorizontalTiles = numberOfHorizontalTiles;
+    }
+
+    public Integer getNumberOfVerticalTiles() {
+        return numberOfVerticalTiles;
+    }
+
+    public void setNumberOfVerticalTiles(Integer numberOfVerticalTiles) {
+        this.numberOfVerticalTiles = numberOfVerticalTiles;
+    }
+
+    public File getInputFile() {
+        return inputFile;
+    }
+
+    public void setInputFile(File inputFile) {
+        this.inputFile = inputFile;
+    }
+
+    public File getOutputDirectory() {
+        return outputDirectory;
+    }
+
+    public void setOutputDirectory(File outputDirectory) {
+        this.outputDirectory = outputDirectory;
+    }
+}
+
 ```
 >**注意**：此为部分代码片段，完整代码将在后续补充，IDE报错可暂时忽略。
 
 #### 参数处理
-为创建命令行应用，需使用GeoTools的`Arguments`类解析以下参数：
-- **必选参数**：输入文件(`-f`)、输出目录(`-o`)
-- **可选参数**：垂直/水平分块数(`-vtc`/`-htc`)、缩放比例(`-scale`)
+由于我们正在创建一个命令行应用程序，因此需要处理命令行参数。GeoTools 提供了一个名为 `Arguments` 的类来简化这一过程。我们将使用该类来解析两个必需参数——输入文件和输出目录，以及几个可选参数——垂直和水平的分块数量，以及分块缩放比例。
 
 ```java
 public static void main(String[] args) throws Exception {
@@ -103,14 +143,13 @@ private static void printUsage() {
 
 #### 加载栅格数据
 
-通过`GridFormatFinder`和`AbstractGridFormat`抽象加载栅格数据。
-注：当前GeoTiff加载存在需单独处理的特性：
+首先，我们需要加载覆盖数据。GeoTools 提供了 `GridFormatFinder` 和 `AbstractGridFormat`，可以以抽象的方式完成此操作。需要注意的是，在撰写本文时，GeoTiff 处理存在一个小问题，因此我们需要单独处理它。
 ```java
 private void tile() throws IOException {
     AbstractGridFormat format = GridFormatFinder.findFormat(this.getInputFile());
     String fileExtension = this.getFileExtension(this.getInputFile());
 
-    // 修复GeoTiff加载时的坐标轴顺序问题
+    // 处理 GeoTiff 加载时的一个 bug/特性，该 bug 使 format.getReader 无法正确设置相关参数
     Hints hints = null;
     if (format instanceof GeoTiffFormat) {
         hints = new Hints(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.TRUE);
@@ -118,10 +157,11 @@ private void tile() throws IOException {
 
     GridCoverage2DReader gridReader = format.getReader(this.getInputFile(), hints);
     GridCoverage2D gridCoverage = gridReader.read(null);
+}
 ```
 #### 分割栅格数据
 
-根据请求的水平和垂直分块数，通过计算地理范围均分瓦片尺寸，并循环进行裁剪和缩放：
+接下来，我们将根据指定的水平和垂直分块数量对覆盖数据进行细分。首先，我们获取覆盖数据的包络范围（envelope），然后按照水平和垂直分块数量对该包络范围进行划分，从而计算出每个分块的宽度和高度。随后，我们遍历水平和垂直方向上的分块数量，依次执行裁剪（crop）和缩放（scale）操作。
 ```java
 ReferencedEnvelope coverageEnvelope = gridCoverage.getEnvelope2D();
 double coverageMinX = coverageEnvelope.getMinX();
@@ -160,9 +200,9 @@ for (int i = 0; i < htc; i++) {
 }
 ```
 
-#### 创建瓦片范围
+#### 创建分块的包络范围
 
-根据索引和地理范围尺寸生成瓦片的地理边界：
+我们将基于分块的索引以及目标分块的宽度和高度来创建每个分块的包络范围：
 ```java
 private Bounds getTileEnvelope(
         double coverageMinX,
@@ -182,32 +222,35 @@ private Bounds getTileEnvelope(
 }
 ```
 
-#### 裁剪操作
-
-手动创建参数并通过`CoverageProcessor`执行`CoverageCrop`操作：
+#### **裁剪**
+现在，我们已经计算出了分块的包络范围宽度和高度。接下来，我们将遍历所有分块，并根据目标包络范围进行裁剪。在本示例中，我们将手动创建参数，并使用 `CoverageProcessor` 执行 `CoverageCrop` 操作。在下一步中，我们将介绍一些更简单的方法来执行覆盖数据操作。
 ```java
 private GridCoverage2D cropCoverage(GridCoverage2D gridCoverage, Bounds envelope) {
     CoverageProcessor processor = CoverageProcessor.getInstance();
+    // 手动创建我们想要的操作和参数的示例
     final ParameterValueGroup param = processor.getOperation("CoverageCrop").getParameters();
     param.parameter("Source").setValue(gridCoverage);
     param.parameter("Envelope").setValue(envelope);
     return (GridCoverage2D) processor.doOperation(param);
 }
 ```
-#### 缩放操作
-
-使用`Operations`类简化缩放操作，保持宽高比：
+#### **缩放**
+我们可以使用 `Scale` 操作来选择性地缩放我们的分块。在本示例中，我们将使用 `Operations` 类来简化操作。这个类封装了操作，并提供了一个类型安全性更强的接口。在这里，我们将按相同的缩放因子缩放 X 和 Y 维度，以保持原始覆盖数据的纵横比。
 ```java
 /**
- * 按设定比例缩放栅格数据
+ * 根据设置的 tileScale 缩放覆盖数据
  *
- * <p>相较于参数操作，Operations类提供更类型安全的方式
+ * <p>作为使用参数执行操作的替代方法，我们可以使用 Operations 类以更类型安全的方式执行操作。
+ *
+ * @param coverage 要缩放的覆盖数据
+ * @return 缩放后的覆盖数据
  */
 private GridCoverage2D scaleCoverage(GridCoverage2D coverage) {
     Operations ops = new Operations(null);
     coverage = (GridCoverage2D) ops.scale(coverage, this.getTileScale(), this.getTileScale(), 0, 0);
     return coverage;
 }
+
 ```
 ### 运行应用程序
 
@@ -245,11 +288,8 @@ mvn exec:java -Dexec.mainClass=org.geotools.tutorial.ImageTiler \
 -Dexec.args="-f /Users/devon/Downloads/NE2_50M_SR_W/NE2_50M_SR_W.tif -htc 16 -vtc 8 -o /Users/devon/tmp/tiles -scale 2.0"  
 ```
 
-### 扩展实践
+#### **尝试的事项**
 
-1. **探索更多栅格操作**  
-    参考[栅格处理器文档](https://docs.geotools.org/latest/userguide/library/coverage/processor.html)，了解`CoverageProcessor`支持的操作（如`Resample`）。  
-    **示例**：使用[`Operations`]([Operations (Geotools modules 33-SNAPSHOT API)](https://docs.geotools.org/latest/javadocs/org/geotools/coverage/processing/Operations.html))类将栅格重投影至EPSG:3587（谷歌Web墨卡托投影）。
-2. **验证分块结果**
-    - 将输出瓦片加载至**GeoServer [ImageMosaic](https://docs.geoserver.org/latest/en/user/data/raster/imagemosaic/index.html))存储** 
-    - 或通过代码创建[`ImageMosaicReader`](https://docs.geotools.org/latest/javadocs/org/geotools/gce/imagemosaic/ImageMosaicReader.html))读取瓦片目录
+有关覆盖数据操作的更多信息，请参阅[Coverage Processor](http://docs.geotools.org/latest/javadocs/index.html?org/geotools/coverage/processing/CoverageProcessor.html)文档。覆盖处理器中提供的操作之一是 `Resample`（请参见 [`Operations`](http://docs.geotools.org/latest/javadocs/org/geotools/coverage/processing/Operations.html) 类），我们可以使用它轻松地重新投影我们的覆盖数据。尝试将覆盖数据重新投影到 EPSG:3587（Google 的 Web Mercator 投影）。
+
+我们可以通过将分块加载到 GeoServer 的 [ImageMosaic](http://docs.geoserver.org/latest/en/user/data/raster/imagemosaic/index.html) 存储中来验证它们是否正常。或者，我们也可以通过编程方式创建指向我们目录文件的 [`ImageMosaicReader`](http://docs.geotools.org/latest/javadocs/org/geotools/gce/imagemosaic/ImageMosaicReader.html)，并从中读取数据。
