@@ -1,6 +1,7 @@
 do
 - [x] 文件分片上传、秒传、断点续传
-- [ ] 前端可视化tif
+- [x] 前端可视化tif 直接返回png
+- [ ] 上传压缩包，解析landsat8
 
 
 ---
@@ -20,3 +21,12 @@ void readTiffFromMinIO() throws Exception {
     inputStream.close();  
 }
 ```
+
+---
+
+上传压缩包，存储到minio
+
+加载数据集，从minio读取数据集压缩文件
+解压存储到临时文件，将这些文件上传到minio中，并关联创建的「数据集」
+
+
