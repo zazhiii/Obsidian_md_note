@@ -2,6 +2,7 @@ do
 - [x] 文件分片上传、秒传、断点续传
 - [x] 前端可视化tif 直接返回png
 - [ ] 上传压缩包，解析landsat8
+- [ ] 计算ndvi，通过一定方式展示给用户
 
 
 ---
@@ -13,7 +14,7 @@ void readTiffFromMinIO() throws Exception {
           GetObjectArgs.builder()  
                 .bucket("minio-upload-demo")  
                 .object("2025-03-29/c6b0d15d-ddbd-44ba-aa20-bffdf392dd01.TIF")  
-                .build()  
+                .build()
     );  
   
     GeoTiffReader reader = new GeoTiffReader(inputStream);  
