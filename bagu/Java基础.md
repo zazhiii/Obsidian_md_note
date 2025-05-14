@@ -24,7 +24,23 @@ JVM 可以理解的代码（.class文件）
 3. 自动装箱与拆箱
 
 # 方法
+1. 重写与重载
 
+
+# 面相对象
+
+1. 三大特性
+2. 接口与抽象类的区别 
+3. 深拷贝、浅拷贝
+
+# `Object`
+1. ==  和 `equals()`
+2. `hashCode()`有什么用
+3. 为什么重写`equals()`必须重写`hashCode()`
+
+# `String`
+1. `String, StringBuilder, StringBuffer`
+2. 
 
 # 反射
 
