@@ -13,15 +13,8 @@
 
 # ArrayList
 
-- 底层用 Object 数组实现
-- 初始容量为 0，当第一次添加元素时才会初始化容量为 10
-- 扩容的时候是原来的 「1.5 倍」（`newCapacity = oldCapacity + (oldCapacity >> 1)`)，扩容需要拷贝数组。
-- 添加数据时 
-> 判断 size + 1 是否大于底层数组的长度，若是则调用扩容方法。
-> 元素添加值 size 位置，size ++。
+- `ArrayList`可以存储`null`
 
-`new ArrayList(10)`扩容几次？
-0 次
 
 ## ArrayList 与 Array 的转换
 
@@ -52,16 +45,16 @@ System.out.println(Arrays.toString(a)); // [1, 2, 3]
 
 ## ArrayList 和 LinkedList 的区别
 
-1. 底层数据结构：ArrayList是动态数组，LinkedList是双向链表
+1. 底层数据结构：ArrayList是`Object`数组，LinkedList是双向链表
 
 2. 操作数据效率
-	1. ArrayList按下标查询时间复杂度为O(1)，LinkedList不支持按下标查询
+	1. `ArrayList` 支持随机访问（通过下标`O(1)`访问），`LinkedList`不支持随机访问（但是有`get(int index)`方法）
 	2. 查找某个元素：都是O(n)
-	3. 新增删除：头尾都是O(1)，中间都是O(n)
+	3. 新增删除：头部操作前者`O(n)`后者`O(1)`，尾部操作都是`O(1)`，指定位置操作都是`O(n)`，
 
 3. 内存空间占用：
 	1. ArrayList是连续内存，节省空间。
-	2. LinkedList是双向链表，还需要存储两个指针，更占内存。
+	2. LinkedList是双向链表，还需要存储两个指针、节点对象，更占内存。
 
 4. 线程安全
 	ArrayList 和 LinkedList都不是线程安全的
@@ -74,6 +67,22 @@ List<Integer> list1 = Collections.synchronizedList(new ArrayList<>());
 List<Integer> list2 = Collections.synchronizedList(new LinkedList<>());
 ```
 
+## `ArrayList`扩容机制
+- 🌟**初始容量为 0**，当第一次添加元素时才会初始化容量为 **10**
+- 🌟每次扩容 **「1.5 倍」**
+>`newCapacity = oldCapacity + (oldCapacity >> 1)`，扩容需要拷贝数组。
+
+ - 添加数据时 
+> 判断 size + 1 是否大于底层数组的长度，若是则调用扩容方法。
+> 元素添加值 size 位置，size ++。
+
+
+
+# `ArrayDeque`
+- 不能存`null`
+
+# `BlockingQueue`
+#[[Obsidian_md_note/bagu/Multi-Thread#线程池中有哪些常见阻塞队列 | 阻塞队列]]
 
 # HashMap
 
@@ -97,10 +106,24 @@ List<Integer> list2 = Collections.synchronizedList(new LinkedList<>());
 3. get 值时，通过 hash 值直接找到下标，进一步判断 key 是否相同，进而找到对应值
 
 > 注意：JDK1.8 之前解决哈希冲突是采用拉链法，没有采用红黑树
+> 
+> 数组长度在第一次添加元素时初始化大小为 16
+> 
+> 数组长度在 < 64时链表长度到达 8 之后优先扩容数组，而非转换为红黑树
+>
+>链表转红黑树的条件（两个）：
+>	1. 链表长度 $\ge$ 8
+>	2. 数组长度 $\ge$ 64
+>
+>红黑树退化链表条件：
+>	1. 数组长度 $\le$ 6
+> 
+> 为什么退化条件不是数组长度 $\le$ 7?    防止频繁地转换
+
 
 ## put的流程
 
-源码：[[HashMap Source Code#put 的流程]]
+源码：[[HashMap#put 的流程]]
 
 1. 判断键值对数组 table 是否为空或 null，是则执行 resize() 扩容（初始化）
 2. 根据 key 计算 hash 值，进而的到数组索引`i`
@@ -112,7 +135,7 @@ List<Integer> list2 = Collections.synchronizedList(new LinkedList<>());
 
 ## 扩容
 
-源码：[[HashMap Source Code#扩容]]
+源码：[[HashMap#扩容]]
 - 第一次添加数据会初始化长度为 16，之后每次达到扩容阈值（数组长度 * 扩容因子(默认 0.75））才会扩容
 - 每次扩容 2 倍
 - 扩容之后会创建新数组，再将老数组的数据移动到新数组中
@@ -122,7 +145,7 @@ List<Integer> list2 = Collections.synchronizedList(new LinkedList<>());
 	- 若为红黑树节点，走红黑树的添加
 	- 若为链表，遍历链表通过 hash 值重新计算在新数组的位置
 
-# HashMap的寻址算法
+## HashMap的寻址算法
 
 > 如何通过 key 得到他应该放在数组的那个下标位置呢？
 
@@ -151,6 +174,17 @@ hash & (n - 1)
 
 ## HashMap在 1.7 多线程死循环
 
-1.7 多个元素在一个桶时是使用「链表」解决的，且插入链表是使用「头插法」。
+1.7 多个元素在一个桶时是使用「**链表**」解决的，且插入链表是使用「**头插法**」。
 在扩容的情况下，多个线程对链表进行操作，头插法会导致链表节点指向不正确，在链表中形成环。
 在后续查询的时候就会导致死循环。
+
+在1.8改成了尾插法
+
+
+# `ConcurrentHashMap`
+1. JDK 1.7 和 JDK 1.8 中 `ConcurrentHashMap`的区别？
+2. 与 `HashTable` 的区别?
+3. 为什么`key`和`value`不能为`null`？？？
+4. 是否能保证复合操作的原子性？
+
+
