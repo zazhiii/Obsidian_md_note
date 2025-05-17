@@ -15,8 +15,6 @@
 - 线程更轻量，线程上下文切换开销比进程更低（上下文切换：从一个线程切换到另一个线程）
 
 ## 并发和并行
-
-
 并发：线程轮流使用一个 CPU
 并行：多个 CPU 同时执行多个线程
 
@@ -35,22 +33,6 @@
 1. start 方法是通过开启一个线程去执行 run 方法的逻辑，只能调用一次。
 2. 直接调用 run 方法，相当于调用一个普通方法。
 
-## 线程的状态
-
-NEW 初始状态
-RUNNABLE 可运行状态
-BLOCKED 阻塞状态
-WATING 等待状态
-TIME_WATING 超时等待
-TERMINATED 终结状态
-
-状态的切换：
-- 创建线程对象是 NEW 初始状态
-- 调用 `start()` 方法转为 RUNNABLE 可运行状态
-	- 没有获取到锁，进入 BLOCKED
-	- 调用`wait()`进入 WATING，其他线程调用`notify()`可将它唤醒至 RUNNABLE
-	- 调用`sleep(50)`进入 TIME_WATING，到时间后切换为 RUNNABLE
-- 执行结束之后是 TERMINATED 终止状态
 
 ## 新建 T1 T2 T3线程，如何保证他们顺序执行？
 
@@ -107,8 +89,8 @@ t3.start();
 	3. 都可以被打断唤醒
 3. 🌟锁特性不同
 	1. `wait()`的**调用前**必须获取到`wait`对象的锁，`sleep()`无此限制
-	2. `wait()`方法**开始执行后**会释放对象锁，其他线程可获取锁（我让出 CPU，你们可以用）
-	3. `sleep()`在`synchronized`中开始执行后，不会释放对象锁（我让出 CPU，你们不能用）
+	2. `wait()`方法**开始执行后**会释放对象锁，其他线程可获取锁
+	3. `sleep()`在`synchronized`中开始执行后，不会释放对象锁
 
 ```java
 // 1. 调用对象的wait()方法，必须获取到对象的锁  
@@ -232,54 +214,16 @@ volatile 使用技巧：
 # 线程池
 
 
-## 线程池的核心参数
-
-```java
-//构造器，参数是重点
-public ThreadPoolExecutor(
-			int corePoolSize, // 核心线程数量
-			int maximumPoolSize, // 最大线程数量(最大线程数 = 核心线程数 + 临时线程数)
-			long keepAliveTime, // 临时线程的存活时间
-			TimeUnit unit, // 临时线程的存活时间单位
-			BlockingQueue<Runnable> workQueue, // 任务队列
-			ThreadFactory threadFactory, // 线程工厂
-			RejectedExecutionHandler handler // 任务拒绝策略
-)
-```
-
-## 线程池的执行原理
-
-1. 提交任务，判断核心线程是否已满。否，则添加任务到核心线程执行。
-2. 是，则判断阻塞队列是否已满。阻塞队列没满则添加任务到阻塞队列中
-3. 阻塞队列满了则在判断线程数是否小于等于最大线程数。是，则创建临时线程执行任务。
-4. 若线程数也达到了最大线程数，则使用拒绝策略处理任务。
-
->拒绝策略：
->1. 直接抛异常（默认）
->2. 使用主线程来执行任务
->3. 丢弃阻塞队列中最前的任务，并执行当前任务
->4. 直接丢弃任务
 
 
-## 线程池中有哪些常见阻塞队列
 
-1. `ArrayBlockingQueue` 基于数组的有界阻塞队列，FIFO
-2. `LinkedBlockingQueue`基于链表的有界阻塞队列，FIFO
 
-区别：
 
-| `ArrayBlockingQueue` | `LinkedBlockingQueue`（开发中运用更多）         |
-| -------------------- | -------------------------------------- |
-| 强制有界                 | 默认无界（`Integer.MAX_VALUE`），支持有界（推荐设置界限） |
-| 底层是数组                | 底层是链表                                  |
-| 提前初始化 Node 数组        | 是懒惰的，创建节点的时候生成 Node，添加数据               |
-| **出队和入队是一把锁（效率更低）**  | **出队和入队是两把锁（效率更高）**                    |
 
-## 如何确定核心线程数
 
-IO密集型任务：核心线程数大小设置为 $2N + 1$
 
-CPU密集型任务：核心线程数大小设置为 $N+1$
+
+
 
 
 ## 线程池的种类
@@ -389,23 +333,9 @@ semaphore.release();
 
 # ThreadLocal
 
-ThreadLocal 本质是线程内部存储类，从而让多个线程只操作自己内部的值，从而实现线程数据隔离。
-
-## 原理：
-
-每个线程内部维护了一个 ThreadLocalMap，他本质是一个哈希表
-
-![[Pasted image 20250316185308.png]]
-
 第一次添加数据：
 
-![[Pasted image 20250316172525.png]]
+![[ThreadLocal源码1.png]]
 
 取值
-![[Pasted image 20250316182744.png]]
-
-## 内存泄露问题
-
-ThreadLocalMap 中的 key 是弱引用，值为强引用。key 会被 GC 释放内存，而关联的 value 的内存并不会释放。建议主动 `remove()`释放 key 和 value
-
-防止内存泄露：务必`remove()`
+![[ThreadLocal源码2.png]]
