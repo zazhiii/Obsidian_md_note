@@ -1,4 +1,39 @@
 
+# 字段类型
+
+## UNSIGNED属性
+
+表示无符号整数，会提高整数上限。
+
+## CHAR 和 VARCHAR 的区别？
+
+1. char 是定长的、varchar 是不定长的
+2. char 适合存储长度段或者长度差不多字符串，varchar 适合存储长度不一的字符串
+
+## DECIMAL 与 DOUBLE/FLOAT 的区别？
+
+DECIMAL能存精确的小数，没有精度损失。
+
+DOUBLE / FLOAT 存近似的小数，有精度损失。
+
+>DECIMAL存储例如货币的数据；对应Java中的`BigDecimal`类型
+
+
+## DATATIME 和 TIMESTAMP 的区别
+
+DATATIME 不带时区信息；TIMESTAMP 带时区信息。
+
+前者占 8 个字节，表示的时间范围更大
+
+后者占 4 个字节，表示的时间范围更小
+
+## Boolean类型如何表示
+
+用 TINYINT 表示
+
+
+
+
 # 存储引擎
 ## InnoDB 和 MyISAM区别
 

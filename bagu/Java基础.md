@@ -11,16 +11,37 @@ Java SE、Java EE
 
 JVM、JDK、JRE
 
-什么是字节码？
+# 什么是字节码？
 JVM 可以理解的代码（.class文件）
 
 使用字节码的好处？
 
 
 # 基本数据类型
-1. 八种基本类型
-2. 包装内存的缓存机制
-3. 自动装箱与拆箱
+## 八种基本类型
+```java
+byte 1bit 
+short 2bit
+int 4bit
+long 8bit
+double 8bit
+float 4bit
+char 2bit
+boolean 通常1bit
+```
+## 包装内存的缓存机制
+
+提前创建好
+- $-128\sim 127$的`Byte, Short, Integer, Long`对象 
+- $0\sim 127$的`Character`对象
+
+## 什么是自动装箱与拆箱？原理？
+
+装箱：基本类型转引用类型
+拆箱：引用类型转基本类型
+
+原理：
+编译之后，在字节码中通过`valueOf()`实现装箱，通过`xxxValue()`实现拆箱。
 
 # 方法
 1. 重写与重载
