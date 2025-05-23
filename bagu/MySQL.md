@@ -55,15 +55,22 @@ DATATIME 不带时区信息；TIMESTAMP 带时区信息。
 
 在 SQL 语句之前加上关键字 explain / desc，他会给出 SQL 执行的一些信息
 
+`type`  描述了 sql 是如何执行的
+![[Pasted image 20250227223158.png]]
+>NULL、system 都不常见。
+>索引一般在内存中，所以索引扫描比全盘扫描快
+
 `possible_key` 当前 sql 可能会用到的索引
-`key` 实际用到的索引
+
+ `key` 实际用到的索引
+
 `key_len` 索引占用的大小，与 key二者判断是否命中索引
+
 `Extra` 额外的优化建议
 - Using where; Using Index  使用了索引，没有回表查询
 - Using index condition  使用了索引，但是需要回表查询 （有优化空间）
-`type` 
-![[Pasted image 20250227223158.png]]
 
+优化手段：
 1. 通过 key 和 key_len 检查是否命中索引
 2. 通过 type 字段查看是否有进一步的优化空间，是否存在全盘扫描或全索引扫描
 3. 通过 extra 判断是否存在回表查询；若存在，可尝试添加索引。
@@ -315,7 +322,7 @@ explain select * from user where name = 'aaa' and gender = 1 and age = 18;
 
 >事务就是多个对数据库的操作
 
-## 4.1 事务四大特性（`ACID`）
+## 事务四大特性（`ACID`）
 
 1. 原子性（Atomicity）：事务是不可分割的最小操作单元，要么全部成功，要么全部失败。
 2. 一致性（Consistency）：事务完成时，必须使所有的数据都保持一致状态。
@@ -323,6 +330,14 @@ explain select * from user where name = 'aaa' and gender = 1 and age = 18;
 4. 持久性（Durability）：事务一旦提交或回滚，它对数据库中的数据的改变就是永久的。
 
 e.g. 转账案例
+
+## 事务的四大特性是如何保证的？
+
+持久性：redo log，保证数据存到磁盘
+
+原子性和一致性：undo log（实现事务回滚）
+
+隔离性：MVCC，维护数据的多个版本
 
 ## 4.2 并发事务问题
 
@@ -353,9 +368,9 @@ e.g. 转账案例
 
 ### 4.4.1 redo log
 
->redo log 为 InnoDB 独有
+>redo log 为物理日志，redo log 为 InnoDB 独有
 
-**redo log**：重做日志，记录事务提交时对数据页的**物理修改**，实现事务的**持久性**
+**redo log**：重做日志，记录事务提交时对数据页的**物理修改**，实现事务的「**持久性**」
 
 若MySQL挂了，可以通过 redo log 恢复数据
 
@@ -372,7 +387,7 @@ MySQL 中数据以页为单位，查询数据时先从`Buffer Pool`中查找，�
 
 当缓冲池同步数据到磁盘后，redo log 记录的信息也就没用了，会定期清理 redo log file。
 
-### `redo log`刷盘时机
+### `redo log` 刷盘时机
 1. 事务提交
 2. 后台刷新线程，定期刷脏页
 3. 正常关闭服务
@@ -387,6 +402,10 @@ undo log：回滚日志，作用是提供 回滚 和 MVCC，它**是逻辑日志
 
 ## 4.5 MVCC
 
+>事务的隔离性如何实现？
+>1. 锁：排他锁
+>2. MVCC 多版本并发控制
+
 当前读：读取的是记录的最新版本，读取时保证其他并发事务不能修改当前记录，会对读取的记录加锁。
 e.g. ：`select ... lock in share mode(共享锁)` 、`select ... for update` 、`update` 、`insert` 、`delete` (排他锁)。
 
@@ -395,9 +414,8 @@ e.g. ：`select ... lock in share mode(共享锁)` 、`select ... for update` �
 -  Repeatable Read：开启事务后第一个select语句才是快照读的地方。 
 - Serializable：快照读会退化为当前读。
 
-**Multi-Version Concurrency Control 多版本并发控制**。维护一个数据的多个版本，使得并发事务读写数据时的一致性和隔离性
-
-### InnoDB 对 MVCC 的实现？
+**Multi-Version Concurrency Control 多版本并发控制**。
+维护一个数据的多个版本，使得并发事务读写数据时的一致性和隔离性
 
 MVCC 实现依赖 
 1. 三个隐藏字段
@@ -405,9 +423,14 @@ MVCC 实现依赖
 3. readView
 
 三个隐藏字段：
-1. DB_TRX_ID：记录最近插入或更新该行数据的事务 ID
-2. DB_ROLL_PTR：回滚指针，指向这行记录的上一个版本，用于配合 undo log ，指向上一个版本
+1. DB_TRX_ID：记录**最后一次插入或更新**该行数据的事务 ID
+2. DB_ROLL_PTR：回滚指针，指向这行记录的上一个版本的地址，用于配合 undo log ，指向上一个版本
 3. DB_ROW_ID：隐藏主键，若表结构没有主键，会生成该字段。
+
+| id  | name | age | DB_TRX_ID | DB_ROLL_PTR | DB_ROW_ID |
+| --- | ---- | --- | --------- | ----------- | --------- |
+|     |      |     |           |             |           |
+
 
 undo log：
 回滚日志，在 insert、update、delete 的时候产生的便于数据回滚的日志。 
@@ -416,6 +439,8 @@ undo log：
 
 undo log 版本链：一些事务对同一条记录进行修改，undo log 会生成一条记录版本链，链表头部是最新数据，尾部是最旧数据。这个链表是通过 DB_ROLL_PTR 实现的。
 
+![[MVCC.png]]
+
 readView：快照读 SQL 执行 MVCC 提取数据的依据，他维护了当前活跃（未提交）事务的 ID
 - m_ids：当前活跃的事务 ID 的集合
 - min_trx_id：最小的活跃事务 ID
@@ -423,6 +448,7 @@ readView：快照读 SQL 执行 MVCC 提取数据的依据，他维护了当前�
 - creator_trx_id：ReadView 创建者的事务 ID
 
 在 undo log 版本链中的各个版本的数据根据一些规则来决定是否**对创建 readView 的事务可见**。
+
 换句话说，readView 的作用是判断 undo log 版本链中各个版本的数据对**当前事务**是否可见。
 
 这个规则是由版本链中数据它们对应的事务 ID ( trx_id ) 决定的。
@@ -430,6 +456,8 @@ readView：快照读 SQL 执行 MVCC 提取数据的依据，他维护了当前�
 - trx_id < min_trx_id ✅ 这个事务已经提交了，可见
 - trx_id >= max_trx_id ❌ 这个事务是创建 readView 之后才开启的。
 - min_trx_id <= trx_id < max_trx_id 且 trx_id 不在 m_ids 中，✅ 事务已经提交，可见。
+
+简单来说就是隐藏字段DB_TRX_ID在活跃事务集合里（由 ReadView 维护）的数据版本对当前事务就是不可见的，反之就是可见的。
 
 不同的事务隔离级别生成 readView 的时机不同：
 - READ COMMITTED ：在事务中每一次执行快照读时生成ReadView。 
