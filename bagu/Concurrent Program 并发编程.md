@@ -302,6 +302,8 @@ JDK1.2工具：`InheritableThreadLocal`
 6. 创建线程的工厂类
 7. 任务拒绝策略
 
+>通过自定义线程工厂，可以实现给线程命名
+
 ```java
 //构造器，参数是重点
 public ThreadPoolExecutor(
@@ -323,7 +325,7 @@ CPU密集型任务：核心线程数大小设置为 $N+1$
 
 ## 线程池的拒绝策略有哪些？
 
-1. 直接抛异常（默认）`AbortPolicy`
+1. 调用者抛异常（默认）`AbortPolicy`
 2. 使用主线程来执行任务 `CallerRunsPolicy`
 3. 丢弃阻塞队列中最前的任务，并执行当前任务 `DiscardOldestPolicy`
 4. 直接丢弃任务 `DiscardPolicy`
