@@ -2,11 +2,63 @@
 
 # 1. Spring IoC
 
+## 什么是IoC？
+
 Inversion of Control 控制反转：将原本在程序中手动创建对象的控制权，交由 Spring 框架来管理
+
+## IoC解决什么问题？
+
+1. 对象之间的耦合和依赖降低
+2. 资源更加易于管理（比如：很容易实现单例）
+
+## 什么是Spring Bean
 
 Bean 代指的就是那些被 IoC 容器所管理的对象。
 
-## 1.1 Bean是线程安全的吗？
+## 将类声明为 Bean 的注解？
+
+`@Component`
+`@Controller`
+`@Service`
+`@Respository`
+`@Configuration`
+`@Mapper`
+
+## `@Component`和`@Bean`的区别？
+
+1. `@Component`作用于类，`@Bean`作用于方法。
+2. 前者通过路径扫描创建 Bean，后者通过方法产生 Bean。
+>通常第三方类我们需要通过 `@Bean`来将其声明为 Bean，因为无法在这些类上加`@Component`
+
+## 注入Bean的注解
+
+1. `@Autowired`
+2. `@Resource`
+3. `@Inject`
+
+## `@Autowired`和`@Resource`的区别？
+
+1. `@Autowired`是 Spring 提供的注解，`@Resource`是 JDK 提供的注解
+2. `@Autowired`优先通过**类型**注入，再通过名字注入
+3. `@Resource`优先通过**名称**注入，再通过类型注入
+>`@Autowired`通过`@Qualifier`指定名字
+>`@Resource`通过name属性指定名字
+
+## Bean的注入方式
+
+1. 构造函数注入
+2. Setter方法注入
+3. 字段注入
+
+## Bean 的作用域
+
+Bean的作用域：用于确定哪种类型的bean实例应该从Spring容器中返回给调用者
+
+1. singleton
+2. prototype
+3. ……
+
+## Bean是线程安全的吗？
 与「作用域」和「有无状态」有关。
 
 `singleton` 无状态（没有定义可变成员变量，纯逻辑）是线程安全，**有状态是线程不安全**。
@@ -16,43 +68,14 @@ Bean 代指的就是那些被 IoC 容器所管理的对象。
 1. 避免可变成员变量，将 Bean 设计为无状态。
 2. 使用`ThreadLocal` 传递可变成员变量。
 3. 使用线程同步机制
----
-
-将一个类声明为 Bean 的注解有哪些?
-- `@Component`：通用的注解，可标注任意类为 `Spring` 组件。
-- `@Repository` : 用于标识数据访问层（Dao 层）的类
-- `@Service` : 对应服务层
-- `@Controller` : 对应 Spring MVC 控制层
-后三者只是在第一个注解的基础上起了三个新名字，作用一致。
-
-`@Component` 和 `@Bean` 的区别？
-- `@Component`：作用于类。通常通过类路径扫描侦测并装配到 `spring` 容器中。与之相关的`@ComponentScan` 定义扫描路径。
-- `@Bean`：作用于方法。该方法会返回一个对象将其变成Bean。通常用于第三方类
-
-注入 Bean 的注解？
-- `@Autowired` Spring内置，优先使用「类型」去匹配 Bean 注入。
-- `@Resource` JDK提供，默认使用「名称」去匹配 Bean 注入。
-- `@Inject` 
-
-DI的方式？
-- 构造函数注入
-- Setter方法注入
-- 字段注入
-
-选择那种注入方式？
-- 官方推荐「构造函数注入」
-
-Bean的作用域？
-Bean的作用域：用于确定哪种类型的bean实例应该从Spring容器中返回给调用者
-- `singleton`：单例模式。  
-- `prototype`：原型模式。  
-- `request`：每次请求创建一个实例。  
-- `session`：每次会话创建一个实例。  
-- `global session`：全局会话创建一个实例。
-
-
 
 ## Bean 的生命周期？
+
+>概括：
+>1. 创建 bean
+>2. 属性赋值
+>3. 初始化
+>4. 销毁
 
 `BeanDefinition` Spring 容器在进行实例化时，会将 xml 中配置的 bean 标签 信息封装为一个`BeanDefinition`（通过注解的方式也类似），Spring 工具它来创建 Bean 对象，里面有描述 Bean 属性的信息。
 - beanClassName：bean 的类名
@@ -61,23 +84,16 @@ Bean的作用域：用于确定哪种类型的bean实例应该从Spring容器中
 - scope：作用域
 - lazyInit：延迟初始化
 
-1. 通过 BeanDefinition 获取 bean 的定义信息
-2. 调用构造函数实例化 bean
-3. bean 的依赖注入（`@Autowired`、`@Resource`、构造函数、setter注入的对象，`@Value`注入的值）
-4. 若 bean 实现了 Aware 接口，会调用对应实现的方法（`BeanNameAware`、`BeanFactoryAware`、……）
+1. **创建 Bean**：通过 BeanDefinition 获取 bean 的定义信息，通过反射调用构造函数实例化 bean
+2. bean 的**依赖注入/属性填充**（`@Autowired`、`@Resource`、构造函数、setter注入的对象，`@Value`注入的值）
+3. 若 bean 实现了 Aware 接口，会调用对应实现的方法（`BeanNameAware`、`BeanFactoryAware`、……）
 > 实现这些 Aware 接口能让 bean 获取到 Spring 容器的资源
 > `BeanNameAware`：实现他的 `setBeanName()`，可以获取 bean 的名字
 > `BeanFactoryAware`：实现他的`setBeanFactory`，可以获取 BeanFactory 的引用
-5. 执行`postProcessBeforeInitialization()` 方法(`BeanPostProcesser`对象中)
-6. 执行`afterPropertiesSet()`方法(实现`InitializingBean`接口)，执行`init-method`(自定义初始化方法)
-7. 执行`postProcessAfterInitialization()` 方法(`BeanPostProcesser`对象中)
-8. 销毁 Bean
-
-
-5. 创建 Bean 实例：通过反射创建
-6. Bean 属性赋值
-7. Bean 初始化
-8. 销毁 Bean 
+4. 执行`postProcessBeforeInitialization()` 方法(`BeanPostProcesser`对象中)
+5. 执行`afterPropertiesSet()`方法(实现`InitializingBean`接口)，执行`init-method`(自定义初始化方法)
+6. 执行`postProcessAfterInitialization()` 方法(`BeanPostProcesser`对象中)
+7. 销毁 Bean
 
 ## 循环依赖
 
