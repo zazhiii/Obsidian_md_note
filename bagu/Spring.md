@@ -1,6 +1,6 @@
 核心功能主要是 IoC 和 AOP 
 
-# 1. Spring IoC
+# Spring IoC
 
 ## 什么是IoC？
 
@@ -95,19 +95,33 @@ Bean的作用域：用于确定哪种类型的bean实例应该从Spring容器中
 6. 执行`postProcessAfterInitialization()` 方法(`BeanPostProcesser`对象中)
 7. 销毁 Bean
 
-## 循环依赖
+## 循环依赖和三级缓存
 
 循环依赖：Bean 对象循环引用，两个或多个对象互相持有对方的引用
 
 Spring 允许循环依赖存在，用「三级缓存」解决大部分循环依赖
-1. 一级缓存：单例池，缓存最终形态的 bean （已实例化、已属性填充、初始化）
-2. 二级缓存：缓存早期 bean 对象（半成品、未填充属性）
-3. 三级缓存：缓存 ObjectFactory，对象工厂，用来创建某个对象。
+1. 一级缓存：单例池，缓存**最终形态的 bean** （已实例化、已属性填充、初始化）
+2. 二级缓存：缓存**早期 bean 对象**（半成品、未填充属性）
+3. 三级缓存：缓存 ObjectFactory**对象工厂**，用来创建"原始Bean对象"或"代理对象"。
+
+>一级缓存并不能解决循环依赖
+>一级缓存 + 二级缓存才能解决循环依赖。
+>
+>为什么需要三级缓存？
+>
+>一、二级缓存只能解决普通对象的循环依赖
+>
+>在真正创建A时会先创建他的工厂对象放入三级缓存，若循环依赖需要A，则通过三级缓存中的工厂对象生产**A原始对象**或者**A的代理对象**放入二级缓存中。
+>
+>若只有二级缓存，只能在二级缓存中拿到A原始对象，而没有代理对象。
 
 创建 bean 的流程
 1. 先从「一级缓存」获取，存在则返回
 2. 没获取到再从「二级缓存」中获取
-3. 还没获取到再从「三级缓存」中获取对应 BeanFactory 创建对应 bean 对象并放入二级缓存中，删除三级缓存的该 BeanFactoy 
+3. 还没获取到再从「三级缓存」中获取对应 BeanFactory 创建对应 bean 原始对象或代理对象并放入二级缓存中，删除三级缓存的该 BeanFactoy 
+
+流程：
+发生循环依赖时，去三级缓存拿到工厂对象生成Bean的原始对象，先注入这个原始对象。将原始对象放入二级缓存中，再删除工厂对象。
 
 Spring 解决不了的循环依赖
 三级缓存只能解决初始化的时候的循环依赖，构造方法注入产生的循环依赖
@@ -136,7 +150,8 @@ public A(@Lazy B b){
 }
 ```
 
-# Spring MVC 的执行流程
+# Spring MVC
+## Spring MVC 的执行流程
 ![[Pasted image 20250305223926.png]]
 1. 浏览器发送请求，`DispatcherServlet` 拦截请求
 2. 调用`HandlerMapping`根据URL匹配handler，将相关的拦截器一起封转返回
@@ -148,7 +163,16 @@ public A(@Lazy B b){
 1. 浏览器发送请求，`DispatcherServlet` 拦截请求
 2. 调用`HandlerMapping`根据URL匹配handler，将相关的拦截器一起封转返回
 3. 调用`HandlerAdapter`执行handler，将数据转为JSON并响应
-# 2. AOP
+
+## 全局异常处理如何做？
+
+使用`@ControllerAdvice` + `@ExceptionHandler(Exception.class)`
+
+前者加在类上，后者加在方法上
+
+# Spring AOP
+
+## 对AOP的理解？
 
 AOP：面向切面编程，将与业务逻辑无关的重复性代码抽取出来封装成一个可重用模块，降低模块耦合
 
@@ -158,15 +182,28 @@ AOP：面向切面编程，将与业务逻辑无关的重复性代码抽取出�
 3. 缓存处理
 4. 权限控制
 
-Spring 中的事务如何实现的？
-本质是通过 AOP 实现，对执行方法前后进行拦截，在执行方法前开启事务，执行方法后提交事务 或 回滚事务
+AOP 是通过**动态代理**实现的。
+- 若被代理对象实现了某个接口，AOP 会使用 **JDK proxy** 生成代理对象，代理对象同样实现了该接口（被代理对象和代理对象是“兄弟”关系）；
+- 若被代理对象没有实现某个接口，AOP 会使用 **Cglib proxy** 去创建代理对象，代理对象会继承被代理对象（被代理对象和代理对象是“父子”关系）。
 
-AOP 是通过动态代理实现的。若被代理对象实现了某个借口，AOP 会使用 JDK proxy 生成代理对象，代理对象同样实现了该接口（被代理对象和代理对象是“兄弟”关系）；若被代理对象没有实现某个接口，AOP 会使用 Cglib proxy 去创建代理对象，代理对象会继承被代理对象（被代理对象和代理对象是“父子”关系）。
+## Spring 中的事务如何实现的？
 
-Spring AOP 和 AspectJ AOP 的区别？
-前者是运行时增强，后者是编译时增强。
+本质是通过 **AOP** 实现
+- 对执行方法前后进行拦截
+- 在执行方法前开启事务
+- 执行方法后提交事务 或 回滚事务
 
-AOP的常见通知类型
+
+
+## Spring AOP 和 AspectJ AOP 的区别？
+
+ Spring AOP是运行时增强，AspectJ AOP是编译时增强。
+
+>如何选择？
+>简单场景： Spring AOP
+>复杂和高性能场景：AspectJ
+
+## AOP的常见通知类型
 1. `Before` 方法前
 2. `After` 方法后
 3. `AfterReturning` 返回结果之后
@@ -175,10 +212,16 @@ AOP的常见通知类型
 
 多个切面的顺序如何控制？
 1. `@Order(n)` 注解，n 代表优先级，越小越高
-2. 实现 `Ordered` ，重写`getOrder()`方法，它的返回值即为优先级
+2. 实现 `Ordered` 接口，重写`getOrder()`方法，它的返回值即为优先级
 
 
-# 3. Spring 事务失效的场景
+# Spring 事务
+
+## 声明式事务
+
+`@Transactional`注解
+
+## Spring 事务失效的场景
 
 1. 异常捕获处理
 若在事务中捕获异常并处理掉，事务通知无法知道，也就不会回滚事务。
@@ -198,10 +241,12 @@ Spring 为方法创建代理、添加事务通知，前提是该方法是 public
 # SpringBoot 自动装配原理
 
 1. 在 SpringBoot 引导类上有一个注解`@SpringBootApplication`，这是三个注解的组合
-	- `@SpringBootConfiguration`
-	- `@ComponentScan`
-	- `@EnableAutoConfiguration`
-2. 其中`@EnableAutoConfiguration`是自动配置的核心注解，它通过`@Import`导入配置选择器（一个类）。内部读取了该项目和引用 jar 包的 class path 下 META-INF/spring.factories文件所配置类的全类名。再这些配置类中所定义的 bean 会根据「条件注解」指定的条件来决定是否要将其加入 Spring 容器中
+	- `@SpringBootConfiguration`：和`@Configuration`类似，声明是配置类
+	- `@ComponentScan`：组件扫描
+	- `@EnableAutoConfiguration`：自动化配置核心注解
+
+2. 其中`@EnableAutoConfiguration`是自动配置的核心注解，它通过`@Import`导入**配置选择器**`AutoConfigurationImportSelector`类。选择器读取该项目和引用 jar 包的 class path 下 META-INF/spring.factories文件所配置类的全类名。再这些配置类中所定义的 bean 会根据「条件注解」指定的条件来决定是否要将其加入 Spring 容器中
+
 3. 条件注解例如`@ConditinalOnClass`，判断是否有对应的 class 文件（是否在 pom 文件中引入依赖），有则加载该类，将该配置类的 Bean 加入容器
 
 
