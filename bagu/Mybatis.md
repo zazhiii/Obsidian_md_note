@@ -1,3 +1,31 @@
+
+## #{}和${}的区别
+
+#{} 是通过 ? 占位符然后再将参数传给 ? 占位符的方式，不会有SQL注入风险
+
+${} 是直接拼接参数的方式，有SQL注入的风险
+
+>${}的使用场景：按照某个字段排序
+>`SELECT * FROM user ORDER BY ${orderCol}`
+
+## 常见的标签
+
+```xml
+<select>
+<insert>
+<delete>
+<update>
+
+<resultMap>
+
+<!-- 动态 SQL -->
+<where>
+<set>
+<if>
+
+
+```
+
 ## Mybatis的执行流程
 1. 读取 Mybatis 的配置文件，mybatis-config.xml加载运行环境和映射文件
 2. 构建会话工厂 SqlSessionFactory
