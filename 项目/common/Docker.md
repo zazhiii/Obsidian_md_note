@@ -63,3 +63,10 @@ docker run -p 9000:9000 -p 9090:9090 \
 ```shell
 docker run -p 9000:9000 -p 9090:9090 --name minio -d --restart=always -e "MINIO_ACCESS_KEY=minioadmin" -e "MINIO_SECRET_KEY=minioadmin" -v E:\MINIO_DATA\data:/data -v E:\MINIO_DATA\config:/root/.minio minio/minio server /data --console-address ":9090" --address ":9000"
 ```
+
+
+# 部署Redis
+
+
+配置密码
+[docker安装redis并配置密码_docker run --requirepass-CSDN博客](https://blog.csdn.net/qq_43324779/article/details/123561461)
