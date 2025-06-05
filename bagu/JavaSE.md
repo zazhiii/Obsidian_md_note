@@ -97,19 +97,100 @@ boolean 通常1bit
 
 # 面相对象
 
-1. 三大特性
-2. 接口与抽象类的区别 
-3. 深拷贝、浅拷贝
+## 面向对象三大特性
+封装
+>合理隐藏属性，不允许直接访问，对外提供操作方法
+
+继承
+>通过已有的类作为基础，创建新的类
+
+多态
+>一个对象有具有多种状态
+
+## 接口与抽象类的共同点与区别 
+共同点：
+1. 不能直接实例化
+2. 都可以包含抽象方法
+
+区别：
+1. 设计目的：接口目的是**定义一种规范**；抽象类是为了**代码复用**
+2. 只能继承**一个**抽象类；可以实现**多个**接口；
+3. Java 8 之前，接口只能有抽象方法（`public abstract`）。Java 8 可定义`default`，`static`方法。Java 9 可定义`private`方法；抽象类中可以有抽象方法和非抽象方法。
+
+>Java 8 引入`default`方法：给出一个方法的默认实现，实现类也可重写。目的是在接口中添加新方法时不需要修改接口的实现类。如果定义抽象方法，所有实现类需要去实现新的抽象方法。
+>
+>Java 8 引入`static`方法，与`default`不同的是该方法不能被重写。
+>
+```java
+public interface MyInterface {
+    default void defaultMethod() {
+        System.out.println("This is a default method.");
+    }
+    static void staticMethod() { 
+	    System.out.println("This is a static method in the interface."); 
+    }
+}
+```
+
+>Java 9引入`private`方法，这个方法不能被实现了访问。只是为了抽取接口中的代码。
+
+## 深拷贝、浅拷贝、引用拷贝 
+
+浅拷贝：
+创建一个新对象，但新对象与原对象共用内部对象
+
+深拷贝：
+完全创建新对象，包括对象内部的引用。
+
+引用拷贝：
+不会创建新对象，两个不同的引用指向一个对象
 
 # `Object`
-1. ==  和 `equals()`
-2. `hashCode()`有什么用
-3. 为什么重写`equals()`必须重写`hashCode()`
+
+## Object常见的方法
+1. `getClass()`
+2. `hashCode()`
+3. `eqauls(Object obj)`
+4. `clone()`
+5. `toString()`
+6. `wait()` 三个重载方法
+7. `notify() notifyAll()`
+8. `finalize()` 垃圾回收时的操作
+
+##  ==  和 `equals()`
+`==` :
+1. 基本类型：比较值
+2. 引用类型：比较地址
+
+`equals()`
+1. 没有重写`eqauls()`：等价 `==`
+2. 重写了`eqauls()`：按照重写了的逻辑来比较
+>比如 String 就重写了该方法，调用时比较的是字符串是否相同
+
+
+## `hashCode()`有什么用
+返回对象的**哈希码**
+
+## 为什么要有hashCode？
+通过 hashCode 能够快速比较两个对象是否相同。
+
+
+## 为什么重写`equals()`必须重写`hashCode()`
+对象相同 hashCode 必须相同，hashCode 相同对象不一定相同。
+
+若重写了`equals()`方法，但是不重写`hashCode()`方法，可能会出现对象相等但 hashCode 不相等的情况。
+
 
 # `String`
-1. `String, StringBuilder, StringBuffer`
-2. 
+## `String`可以被继承吗？
+不能；被`final`修饰了。
 
+## `String, StringBuilder, StringBuffer`
+1. String 不可变；StringBuilder 和 StringBuffer 可变。
+2. String、StringBuffer 线程安全；StringBuilder 线程不安全。
+
+## 字符串常量池
+避免重复创建字符串开辟的一块区域。
 
 # 异常
 1. `Checked Exception & Unchecked Exception`
