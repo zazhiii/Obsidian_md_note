@@ -281,3 +281,53 @@ public final boolean hasQueuedPredecessors() {
 }
 ```
 > 总结：当前线程去获取锁时，需要判断等待队列中释放有**其他**优先级比自己高的线程在等待，没有的话自己才去尝试获取锁。
+
+# 条件变量原理
+
+## 等待
+
+```java
+// ConditionObject
+public final void await() throws InterruptedException {  
+    if (Thread.interrupted())  
+        throw new InterruptedException();  
+    Node node = addConditionWaiter(); // 添加一个等待节点
+    int savedState = fullyRelease(node); // 释放掉该节点身上的锁（包括重入计数的值，全部释放）
+    int interruptMode = 0;  
+    while (!isOnSyncQueue(node)) {  
+        LockSupport.park(this);  
+        if ((interruptMode = checkInterruptWhileWaiting(node)) != 0)  
+            break;  
+    }  
+    if (acquireQueued(node, savedState) && interruptMode != THROW_IE)  
+        interruptMode = REINTERRUPT;  
+    if (node.nextWaiter != null) // clean up if cancelled  
+        unlinkCancelledWaiters();  
+    if (interruptMode != 0)  
+        reportInterruptAfterWait(interruptMode);  
+}
+```
+
+## 唤醒
+
+```java
+// ConditionObject
+public final void signal() {  
+    if (!isHeldExclusively())  
+        throw new IllegalMonitorStateException();  
+    Node first = firstWaiter;  
+    if (first != null)  
+        doSignal(first);  
+}
+
+// ConditionObject
+private void doSignal(Node first) {  
+    do {  
+	    // 将节点从 ConditionObject 中的链表里断开
+        if ( (firstWaiter = first.nextWaiter) == null)  
+            lastWaiter = null;  
+        first.nextWaiter = null;  
+    } while (!transferForSignal(first) &&  // 将节点加入竞争锁的队列中
+             (first = firstWaiter) != null);  
+}
+```
