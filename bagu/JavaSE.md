@@ -242,17 +242,47 @@ public interface MyInterface {
 
 # 泛型
 
+## 什么是泛型
+
+允许类、接口、方法中使用类型参数（“类型参数化”，即把类型作为参数传递给类、接口、方法）
+
 ## 泛型的作用
 
-编译器可以通过泛型指定传入对象的类型，传不符合泛型的类型就会报错。
+1. 增强类型安全：编译器可以通过泛型指定传入对象的类型，传不符合泛型的类型就会报错。
 
-并且，通过泛型实现`List`中取值的自动转换（`List`默认是返回`Object`类型）
+2. 减少强转：例如通过泛型实现`List`中取值的自动转换（`List`默认是返回`Object`类型）
+
+3. 提高代码重用性：允许编写通用代码来处理多种类型，例如处理`Integer`、`Double`等数字的运算
 
 ## 泛型的使用方法？
 
 1. 泛型类
+```java
+public class Box<T> {
+    // ...
+}
+```
+
 2. 泛型接口
+```java
+public interface Comparable<T> {
+    int compareTo(T o);
+}
+
+```
+
 3. 泛型方法
+```java
+    public static <T> void printArray(T[] array) {
+        for (T item : array) {
+            System.out.println(item);
+        }
+    }
+```
+
+## 泛型擦拭
+
+泛型擦拭：泛型只在编译期间存在，运行时不会保留泛型的类型
 
 ## 泛型应用的场景？
 

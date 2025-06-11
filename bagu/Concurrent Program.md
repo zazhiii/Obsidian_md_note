@@ -27,11 +27,15 @@
 ## 如何创建线程
 
 使用代码创建线程的方式：
-1. 继承Thread
-2. 实现Runnable，传入Thread
-3. 实现Callable，传入FutureTask，传入Thread
+1. 继承`Thread`，实现 `run()`，调用 `start()`
+2. 实现`Runnable`，实现`run()`，传入`Thread`，调用`start()`
+3. 实现`Callable`，实现`call()`，传入`FutureTask`，传入`Thread`，调用`start()`
 
 真正创建线程的时刻：`new Thread().start()`
+
+## Runnable 和 Callable 区别
+1. Runnable 的 run 方法没有返回值，Callable 的 call 方法有返回值，和 FutureTask 配合使用可以获取异步执行的结果
+2. Callable 的 call 方法可以往外抛异常，Runnable 的 run 方法不能往外抛异常
 
 ## 线程状态
 NEW 初始状态
@@ -44,25 +48,105 @@ TERMINATED 终结状态
 状态的切换：
 - 创建线程对象是 NEW 初始状态
 - 调用 `start()` 方法转为 RUNNABLE 可运行状态
-	- 没有获取到锁，进入 BLOCKED
+	- **没有获取到锁**，进入 BLOCKED
 	- 调用`wait()`进入 WATING，其他线程调用`notify()`可将它唤醒至 RUNNABLE
 	- 调用`sleep(50)`进入 TIME_WATING，到时间后切换为 RUNNABLE
 - 执行结束之后是 TERMINATED 终止状态
 
 ## `Thread#sleep()` 和 `Object#wait()`方法对比
-[[Obsidian_md_note/bagu/Multi-Thread#`wait()`和`sleep()`的区别 ]]
-- 方法归属
-- 锁特性（调用前是否需要获得锁、调用后是否释放锁）
 
-## 是否可以直接调用`Thread`的`run()`方法
-[[Obsidian_md_note/bagu/Multi-Thread#run 方法和 start 方法的区别|run 方法和 start 方法的区别]]
+1. 方法归属不同
+	- `sleep(Long time)`是`Thread`的静态方法
+	- `wait(), wait(Long time)`是 `Object`的成员方法，每个对象都有
+2. 醒来时机不同
+	1. `sleep(Long time), wait(Long time)`会在等待相应时间后醒来
+	2. `wait(), wait(Long time)`可以被`notify()`唤醒，不唤醒的话`wait()`会一直等待下去
+	3. 都可以被打断唤醒
+3. 🌟锁特性不同
+	1. `wait()`的**调用前**必须获取到`wait`对象的锁，`sleep()`无此限制
+	2. `wait()`方法**开始执行后**会释放对象锁，其他线程可获取锁
+	3. `sleep()`在`synchronized`中开始执行后，不会释放对象锁
 
+```java
+// 1. 调用对象的wait()方法，必须获取到对象的锁  
+private static void legalWait() throws InterruptedException {  
+    synchronized(LOCK){  
+        LOCK.wait();  // 正常运行
+    }  
+}  
+private static void illegalWait() throws InterruptedException {  
+    LOCK.wait();  // 报错：IllegalMonitorStateException: current thread is not owner
+}
+
+
+/**  
+ * 执行结果：  
+ * waiting...  // LOCK 调用 wait() 释放锁  
+ * other thread get lock // 主线程获取到锁  
+ * waiting end // 主线程释放锁之后，新线程获取到锁，继续执行  
+ */  
+public static void waiting() throws InterruptedException {  
+    new Thread(() -> {  
+        synchronized (LOCK) {  
+            try {  
+                System.out.println("waiting...");  
+                LOCK.wait(5000);  
+                System.out.println("waiting end");  
+            } catch (InterruptedException e) {  
+                e.printStackTrace();  
+            }  
+        }  
+    }).start();  
+  
+    Thread.sleep(1000);  
+  
+    synchronized (LOCK) {  
+        System.out.println("other thread get lock");  
+    }  
+}
+
+
+/**  
+ * 执行结果：  
+ * sleep...                 // 1. LOCK 调用 sleep() 但是「不释放锁」  
+ * sleep end                // 2. 5s 后，LOCK 释放锁  
+ * other thread get lock    // 3. 主线程获取到锁  
+ */  
+public static void sleeping() throws InterruptedException {  
+    new Thread(() -> {  
+        synchronized (LOCK) {  
+            try {  
+                System.out.println("sleep...");  
+                Thread.sleep(5000);  
+                System.out.println("sleep end");  
+            } catch (InterruptedException e) {  
+                e.printStackTrace();  
+            }  
+        }  
+    }).start();  
+  
+    Thread.sleep(1000);  
+  
+    synchronized (LOCK) {  
+        System.out.println("other thread get lock");  
+    }  
+}
+```
+
+## run 方法和 start 方法的区别
+
+1. start 方法是通过开启一个线程去执行 run 方法的逻辑，只能调用一次。
+2. 直接调用 run 方法，相当于调用一个普通方法。
 
 # 多线程
 
 ## 并发与并行
 
 ## 同步与异步
+
+同步：调用后必须等待任务完成才返回；任务顺序执行，一个接一个
+
+异步：调用后立即返回；任务并行交错执行
 
 ## 为什么要使用多线程？
 
@@ -71,7 +155,7 @@ TERMINATED 终结状态
 单核角度：提高程序使用CPU和IO系统的效率（IO阻塞时去处理其他任务）
 多核角度：提高程序使用多核CPU的能力（多个CPU同时处理任务）
 
-# 单核 CPU 支持多线程吗？
+## 单核 CPU 支持多线程吗？
 
 支持。
 
@@ -80,7 +164,7 @@ TERMINATED 终结状态
 Java 线程的调度使用的是：抢占式调度。JVM 将线程的调度委托给操作系统，操作系统基于线程优先级和时间片来调度线程的执行
 
 
-# 单核 CPU 运行多线程 效率一定会更高吗？
+## 单核 CPU 运行多线程 效率一定会更高吗？
 
 不一定。得看任务的性质。
 
@@ -94,26 +178,36 @@ Java 线程的调度使用的是：抢占式调度。JVM 将线程的调度委�
 
 ## 如何理解线程安全和线程不安全
 
-在多线程环境下对同一份数据的访问是否能保证正确性和一致性的描述。
+在多线程环境下对共享数据的访问能否保证正确性
 
 # 死锁
 ## 什么是死锁？
 
-两个或者多个线程在执行过程中因为竞争资源而导致的**永久性阻塞**。线程互相等待对方释放所需要的资源，由于资源被互相占用，导致线程永远不能继续执行。
+两个或者多个线程在执行过程中，**互相等待对方持有的资源**，导致线程永久阻塞
 
 ## 产生死锁的条件（四个）：
+
 1. 互斥条件：资源只能被一个线程所占有
+
 2. 请求与保持条件：线程在请求资源而被阻塞的时候，保持资源不放。
+
 3. 不可剥夺条件：线程在使用完资源时，不能被其他线程剥夺
+
 4. 循环等待条件：若干线程线程一种头尾相连的等待资源关系
 
 ## 如何检测死锁？
+
 使用`JConsole`工具
 
 ## 如何预防和避免死锁？
-1. 破坏请求与保持条件：一次性申请所有的资源
-2. 破坏不可剥夺条件：如果申请不到资源，主动放弃已经占有的资源
-3. 破坏循环等待条件：按序申请资源
+
+>破坏死锁的条件之一就可以避免死锁
+
+1. 破坏请求与保持条件：一次性申请所有的资源，避免持有一部分资源然后再去申请资源
+
+2. 破坏不可剥夺条件：加锁时设置超时时间，申请不到资源就释放原来的资源
+
+3. 破坏循环等待：按顺序申请资源
 
 # ============
 
@@ -133,9 +227,39 @@ JMM 可以看作 Java 并发编程的一种规范。他规定了**线程和主�
 
 ## 保证可见性的原理
 
-通过**读写屏障**
+通过**读写屏障**、防止 CPU 指令重排
 
-应用：双重校验锁实现单例模式
+写屏障：当线程写入变量之后，强制将变量写入主存
+
+读屏障：当线程读取变量之前，强制从主存中读取最新值
+
+读写屏障之间不能乱序执行
+
+## `volatile`应用
+
+双重校验锁实现单例模式
+```java
+public class Singleton {
+
+    private volatile static Singleton uniqueInstance;
+
+    private Singleton() {
+    }
+
+    public  static Singleton getUniqueInstance() {
+       //先判断对象是否已经实例过，没有实例化过才进入加锁代码
+        if (uniqueInstance == null) {
+            //类对象加锁
+            synchronized (Singleton.class) {
+                if (uniqueInstance == null) {
+                    uniqueInstance = new Singleton();
+                }
+            }
+        }
+        return uniqueInstance;
+    }
+}
+```
 
 ## 可以保证原子性吗？
 
@@ -154,7 +278,7 @@ JMM 可以看作 Java 并发编程的一种规范。他规定了**线程和主�
 
 认为线程安全问题**不一定**会出现，访问共享资源时不加锁；
 
-在提交修改时验证数据在此期间是否被其他线程修改。
+在提交修改时验证数据在此期间是否被其他线程修改，如果有就放弃修改或者重试
 
 具体做法有**版本号机制**和**CAS算法**
 
@@ -173,7 +297,9 @@ JMM 可以看作 Java 并发编程的一种规范。他规定了**线程和主�
 
 2. CAS算法（使用相对较多）
 
-拿提交修改时的数据值和读取时的数据值比较，相同则没有其他线程在此期间修改变量，修改成功，否则修改失败。
+>Compare And Swap / Set
+
+拿提交修改时的当前数据值和期望的数据（一般就是一开始读取到的数据值）值比较，相同则没有其他线程在此期间修改变量，修改成功，否则修改失败。
 
 ## Java如何实现CAS的？
 
@@ -186,8 +312,9 @@ JMM 可以看作 Java 并发编程的一种规范。他规定了**线程和主�
 1. ABA问题
 当一个变量在CAS期间被修改并再被修改回来时CAS是无法检测到的。可以通过版本号解决
 
-2. CAS失败会循环重试，重试过多会导致性能问题
-3. 只能保证一个共享变量的操作
+2. CAS失败会循环重试（**自旋**），重试过多会导致性能问题
+
+3. 只能操作一个共享变量
 
 
 # `synchronized`
@@ -198,7 +325,7 @@ JMM 可以看作 Java 并发编程的一种规范。他规定了**线程和主�
 
 他能保证多线程访问资源的**同步性**
 
-保证被他修饰的方法或代码块同一时刻只能有一个线程执行
+保证被他修饰的**方法或代码块**同一时刻只能有一个线程执行
 
 ## 如何使用
 

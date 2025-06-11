@@ -25,13 +25,8 @@
 3. 实现 Callable 接口
 4. 线程池创建线程
 
-### Runnable 和 Callable 的区别？
-1. Runnable 的 run 方法没有返回值，Callable 的 call 方法有返回值，和 FutureTask 配合使用可以获取异步执行的结果
-2. Callable 的 call 方法可以往外抛异常，Runnable 的 run 方法不能往外抛异常
 
-### run 方法和 start 方法的区别
-1. start 方法是通过开启一个线程去执行 run 方法的逻辑，只能调用一次。
-2. 直接调用 run 方法，相当于调用一个普通方法。
+
 
 
 ## 新建 T1 T2 T3线程，如何保证他们顺序执行？
@@ -74,89 +69,7 @@ t3.start();
 `notifyAll()`：唤醒所有`wait`的线程
 
 
-## `wait()`和`sleep()`的区别
 
-共同点：
-`wait(), wait(Long time), sleep(Long time)`都是让线程放弃 CPU 的使用权，进入阻塞状态
-
-不同点：
-1. 方法归属不同
-	- `sleep(Long time)`是`Thread`的静态方法
-	- `wait(), wait(Long time)`是 `Object`的成员方法，每个对象都有
-2. 醒来时机不同
-	1. `sleep(Long time), wait(Long time)`会在等待相应时间后醒来
-	2. `wait(), wait(Long time)`可以被`notify()`唤醒，不唤醒的话`wait()`会一直等待下去
-	3. 都可以被打断唤醒
-3. 🌟锁特性不同
-	1. `wait()`的**调用前**必须获取到`wait`对象的锁，`sleep()`无此限制
-	2. `wait()`方法**开始执行后**会释放对象锁，其他线程可获取锁
-	3. `sleep()`在`synchronized`中开始执行后，不会释放对象锁
-
-```java
-// 1. 调用对象的wait()方法，必须获取到对象的锁  
-private static void legalWait() throws InterruptedException {  
-    synchronized(LOCK){  
-        LOCK.wait();  // 正常运行
-    }  
-}  
-private static void illegalWait() throws InterruptedException {  
-    LOCK.wait();  // 报错：IllegalMonitorStateException: current thread is not owner
-}
-
-
-/**  
- * 执行结果：  
- * waiting...  // LOCK 调用 wait() 释放锁  
- * other thread get lock // 主线程获取到锁  
- * waiting end // 主线程释放锁之后，新线程获取到锁，继续执行  
- */  
-public static void waiting() throws InterruptedException {  
-    new Thread(() -> {  
-        synchronized (LOCK) {  
-            try {  
-                System.out.println("waiting...");  
-                LOCK.wait(5000);  
-                System.out.println("waiting end");  
-            } catch (InterruptedException e) {  
-                e.printStackTrace();  
-            }  
-        }  
-    }).start();  
-  
-    Thread.sleep(1000);  
-  
-    synchronized (LOCK) {  
-        System.out.println("other thread get lock");  
-    }  
-}
-
-
-/**  
- * 执行结果：  
- * sleep...                 // 1. LOCK 调用 sleep() 但是「不释放锁」  
- * sleep end                // 2. 5s 后，LOCK 释放锁  
- * other thread get lock    // 3. 主线程获取到锁  
- */  
-public static void sleeping() throws InterruptedException {  
-    new Thread(() -> {  
-        synchronized (LOCK) {  
-            try {  
-                System.out.println("sleep...");  
-                Thread.sleep(5000);  
-                System.out.println("sleep end");  
-            } catch (InterruptedException e) {  
-                e.printStackTrace();  
-            }  
-        }  
-    }).start();  
-  
-    Thread.sleep(1000);  
-  
-    synchronized (LOCK) {  
-        System.out.println("other thread get lock");  
-    }  
-}
-```
 
 ## 如何停止一个正在运行的线程？
 
