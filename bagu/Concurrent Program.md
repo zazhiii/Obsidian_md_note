@@ -393,21 +393,36 @@ ThreadLocal 本质是线程内部存储类，从而让多个线程只操作自�
 
 ## 内存泄露是如何造成的？
 
+先看`ThreadLocalMap`中存储数据`Entry`结构
+
+```java
+static class Entry extends WeakReference<ThreadLocal<?>> {
+	// 没有使用 ThreadLocal key; 这样的强引用。
+    Object value;
+}
+```
+
 `ThreadLocalMap`的 **key 是弱引用**，value是强引用。
 
-当`ThreadLocalMap`实例没有被强引用所指向时，实例就会被GC，此时 key 变为 `null`。
+> 并没有使用 `ThreadLocal key;` 这样的强引用，而是通过 `WeakReference`实现弱引用
 
-但 value 仍然被`ThreadLocalMap.Entry`所指向，无法被GC
+当`ThreadLocal`实例没有被强引用所指向时（比如我们使用完 tl 之后把它赋值为 null），实例就会被GC，此时 key 变为 `null`。
 
-如果线程继续存活，那么就会造成内存泄露。
+但存储的对象仍然被`ThreadLocalMap.Entry`中的`value`所指向，无法被GC，我们也无法访问到这个`value`，最后就造成了内存泄露。
 
+如果**线程继续存活**（线程池中的线程），那么就会造成内存泄露。
+
+> 为什么要设计成弱引用？
+> 避免更严重的内存泄露，如果 key 设计为强引用，当外部不在引用 tl 实例的时候，key 仍然强引用 tl 实例，这就导致连 key 都无法被 GC 了，造成了更严重的泄露。
 ## 如何避免内存泄露？
 
-用完之后调用 `remove()`
+用完之后调用`ThreadLocal`实例的 `remove()`方法
 
 ## 如何跨线程传递`ThreadLocal`的值？
-JDK1.2工具：`InheritableThreadLocal`
-阿里巴巴：`TransmittableThreadLocal`
+
+1. `InheritableThreadLocal`：JDK1.2提供的工具，当创建子线程之后，他会继承父线程中`ThreadLocal`的值，但是无法在线程池的场景下做到值传递
+
+2. `TransmittableThreadLocal`：阿里巴巴开源工具，可以实现线程池下实现值传递
 
 
 # 线程池
